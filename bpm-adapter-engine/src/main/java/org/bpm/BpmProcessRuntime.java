@@ -14,8 +14,10 @@ public interface BpmProcessRuntime {
      * @param processDefKey 流程定义的KEY
      * @param businessKey 业务主键ID
      * @param variables 启动时放入流程参数
+     * @param tenantId 租户ID
+     * @return taskId 任务ID
      */
-    public void startProcess(String userId ,String processDefKey, String businessKey , Map<String, Object> variables);
+    public String startProcess(String userId ,String processDefKey, String businessKey , Map<String, Object> variables, String tenantId);
 
     /**
      * 终止流程
@@ -32,5 +34,12 @@ public interface BpmProcessRuntime {
      * @param reason 删除原因
      */
     public void deleteProcess(String userId , String taskId , String reason);
+
+    /**
+     * 更新业务主键
+     * @param processInstanceId 流程实例ID
+     * @param businessKey 业务主键
+     */
+    public void updateBusinessKey(String processInstanceId, String businessKey);
 
 }
