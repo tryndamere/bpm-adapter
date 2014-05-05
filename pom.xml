@@ -197,6 +197,7 @@
         <module>bpm-adapter-spring</module>
         <module>bpm-adapter-db</module>
         <module>bpm-adapter-rest</module>
+		<module>bpm-adapter-common</module>
     </modules>
 
     <build>
