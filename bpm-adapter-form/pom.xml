@@ -12,6 +12,7 @@
 
     <artifactId>bpm-adapter-form</artifactId>
     <packaging>jar</packaging>
+    <version>${parent.version}</version>
 
 
 </project>

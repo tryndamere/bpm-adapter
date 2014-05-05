@@ -12,6 +12,14 @@
 
     <artifactId>bpm-adapter-engine</artifactId>
     <packaging>jar</packaging>
+    <version>${parent.version}</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.bpm</groupId>
+            <artifactId>bpm-adapter-db</artifactId>
+        </dependency>
+    </dependencies>
 
 
 </project>

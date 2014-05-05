@@ -26,7 +26,6 @@ public interface BpmTrace {
      */
     public List<BpmTask> traceText2Image(String taskId);
 
-
     /**
      * 文本跟踪
      * @param taskId 任务ID
