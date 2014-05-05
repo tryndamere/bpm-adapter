@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+	<property name="PATTERN" value="%date %-5level [%thread] %logger{10} %msg%n" />
+
+	<appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator class="org.bpm.common.log.sift.LogDiscriminator">
+			<key>serviceName</key>
+			<defaultValue>system</defaultValue>
+		</discriminator>
+		<sift>
+			<appender name="${serviceName}" class="ch.qos.logback.core.ConsoleAppender">
+				<layout class="ch.qos.logback.classic.PatternLayout">
+					<pattern>%d [%thread] %level [${serviceName}] %logger{10} - %msg%n
+					</pattern>
+				</layout>
+			</appender>
+		</sift>
+	</appender>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>${PATTERN}</pattern>
+		</layout>
+	</appender>
+
+	<root level="DEBUG">
+		<appender-ref ref="CONSOLE" />
+	</root>
+	<logger name="sift" level="INFO" additivity="false">
+		<appender-ref ref="SIFT" />
+	</logger>
+</configuration>
