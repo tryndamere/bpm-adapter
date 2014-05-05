@@ -144,6 +144,36 @@
                 <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.bpm</groupId>
+                <artifactId>bpm-adapter-engine</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bpm</groupId>
+                <artifactId>bpm-adapter-db</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bpm</groupId>
+                <artifactId>bpm-adapter-form</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bpm</groupId>
+                <artifactId>bpm-adapter-rest</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bpm</groupId>
+                <artifactId>bpm-adapter-spring</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bpm</groupId>
+                <artifactId>bpm-adapter-task</artifactId>
+                <version>${version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
