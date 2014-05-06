@@ -13,5 +13,11 @@
     <artifactId>bpm-adapter-spring</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.bpm</groupId>
+            <artifactId>bpm-adapter-engine</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
