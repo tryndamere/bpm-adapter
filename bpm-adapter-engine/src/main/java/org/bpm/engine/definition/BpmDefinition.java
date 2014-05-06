@@ -1,6 +1,6 @@
-package org.bpm;
+package org.bpm.engine.definition;
 
-import org.bpm.vo.BpmProcess;
+import org.bpm.engine.runtime.vo.BpmProcess;
 
 import java.util.List;
 import java.util.zip.ZipInputStream;

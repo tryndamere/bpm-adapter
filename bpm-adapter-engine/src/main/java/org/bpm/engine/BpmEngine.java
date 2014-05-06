@@ -1,7 +1,7 @@
-package org.bpm;
+package org.bpm.engine;
 
 /**
- * 服务提供的一个工厂
+ * 服务工厂
  * Created by rocky on 14-5-4.
  */
 public interface BpmEngine {

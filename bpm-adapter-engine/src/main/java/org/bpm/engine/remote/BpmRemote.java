@@ -1,4 +1,4 @@
-package org.bpm;
+package org.bpm.engine.remote;
 
 import java.util.Map;
 

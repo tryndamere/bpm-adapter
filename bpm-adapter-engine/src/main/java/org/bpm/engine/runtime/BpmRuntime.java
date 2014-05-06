@@ -1,4 +1,4 @@
-package org.bpm;
+package org.bpm.engine.runtime;
 
 /**
  * 运行时接口，主要实现流程流转相应功能点。如：提交，退回，终止等操作
