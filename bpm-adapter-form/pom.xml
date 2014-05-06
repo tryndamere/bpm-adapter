@@ -14,5 +14,10 @@
     <packaging>jar</packaging>
     <version>${parent.version}</version>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.bpm</groupId>
+            <artifactId>bpm-adapter-engine</artifactId>
+        </dependency>
+    </dependencies>
 </project>
