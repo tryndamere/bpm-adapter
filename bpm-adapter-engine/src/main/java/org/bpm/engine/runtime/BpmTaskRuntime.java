@@ -1,6 +1,6 @@
 package org.bpm.engine.runtime;
 
-import org.bpm.engine.runtime.vo.BpmTask;
+import org.bpm.engine.impl.vo.BpmTask;
 
 import java.util.List;
 import java.util.Map;
@@ -71,7 +71,7 @@ public interface BpmTaskRuntime {
     /**
      * 减签
      * @param taskId 任务ID
-     * @param variables
+     * @param variables 流程参数
      */
     public void reduceSignTask(String taskId , Map<String,Object> variables);
 

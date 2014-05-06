@@ -1,6 +1,6 @@
 package org.bpm.engine.definition;
 
-import org.bpm.engine.runtime.vo.BpmProcess;
+import org.bpm.engine.impl.vo.BpmProcess;
 
 import java.util.List;
 import java.util.zip.ZipInputStream;
@@ -24,4 +24,18 @@ public interface BpmDefinition {
      * @return
      */
     public List<BpmProcess> allBpmProcesses(String tenantId);
+
+    /**
+     * 删除流程
+     * @param processDefKey 流程定义的KEY
+     * @param cascade 是否关联删除
+     */
+    public void deleteProcessesByProcessDefKey(String processDefKey , boolean cascade);
+
+    /**
+     * 删除流程
+     * @param deploymentId 流程部署ID
+     * @param cascade 是否关联删除
+     */
+    public void deleteProcessByDeploymentId(String deploymentId , boolean cascade);
 }
