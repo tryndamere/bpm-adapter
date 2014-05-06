@@ -16,7 +16,6 @@
 		<dependency>
 			<artifactId>bpm-adapter-common</artifactId>
 			<groupId>org.bpm</groupId>
-			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
 </project>
