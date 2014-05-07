@@ -32,6 +32,7 @@
 		<logback.version>1.1.2</logback.version>
 		<fastjson.version>1.1.37</fastjson.version>
 		<mybatis.version>3.2.3</mybatis.version>
+        <tomcat-jdbc.version>7.0.50</tomcat-jdbc.version>
 		<mybatis-spring.version>1.2.1</mybatis-spring.version>
 	</properties>
 
@@ -166,6 +167,11 @@
 				<artifactId>logback-classic</artifactId>
 				<version>${logback.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-jdbc</artifactId>
+                <version>${tomcat-jdbc.version}</version>
+            </dependency>
 
             <!--junit-->
             <dependency>
@@ -210,6 +216,7 @@
                 <artifactId>bpm-adapter-common</artifactId>
                 <version>${version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -301,4 +308,11 @@
         </pluginManagement>
     </build>
 
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>local private nexus</name>
+            <url>http://maven.oschina.net/content/groups/public/</url>
+        </repository>
+    </repositories>
 </project>
