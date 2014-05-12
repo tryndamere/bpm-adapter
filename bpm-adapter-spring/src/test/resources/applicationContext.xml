@@ -68,12 +68,13 @@
 
 
 
-    <bean id="bpmConfiguration" class="org.bpm.spring.cfg.BpmConfiguration">
-        <property name="engineType" value="ACTIVITI"/>
-    </bean>
-
     <bean id="bpmEngineFactory" class="org.bpm.spring.BpmEngineFactory" destroy-method="destroy">
-        <property name="configuration" ref="bpmConfiguration"/>
+
+        <property name="properties">
+            <props>
+                <prop key="bpm_engine_type" >activiti</prop>
+            </props>
+        </property>
     </bean>
 
     <bean id="bpmRuntime" factory-bean="bpmEngineFactory" factory-method="getBpmRuntime"/>

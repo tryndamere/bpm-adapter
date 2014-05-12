@@ -3,6 +3,7 @@ package org.bpm.spring;
 import org.bpm.engine.BpmEngine;
 import org.bpm.engine.runtime.BpmRuntime;
 import org.bpm.spring.cfg.Configuration;
+import org.springframework.context.ApplicationContext;
 
 /**
  * Created by serv on 14-5-7.
@@ -10,11 +11,13 @@ import org.bpm.spring.cfg.Configuration;
 public class BpmEngineImpl implements BpmEngine{
 
     protected Configuration configuration;
+    protected ApplicationContext applicationContext;
     protected BpmRuntime bpmRuntime;
 
-    public BpmEngineImpl(Configuration configuration){
+    public BpmEngineImpl(Configuration configuration,ApplicationContext applicationContext){
         this.configuration = configuration;
-        bpmRuntime = configuration.getEngineType().createBpmRuntime(configuration);
+        this.applicationContext = applicationContext;
+        bpmRuntime = configuration.getEngineType().createBpmRuntime(configuration,applicationContext);
 
     }
 

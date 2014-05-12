@@ -3,7 +3,6 @@ package org.bpm.spring.impl;
 import org.activiti.engine.RuntimeService;
 import org.bpm.engine.impl.vo.BpmTask;
 import org.bpm.engine.runtime.BpmRuntime;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
@@ -13,8 +12,11 @@ import java.util.Map;
  */
 public class ActivitiRuntimeImpl implements BpmRuntime{
 
-    @Autowired
     RuntimeService runtimeService;
+
+    public void setRuntimeService(RuntimeService runtimeService) {
+        this.runtimeService = runtimeService;
+    }
 
     @Override
     public void admin(String userId, String taskId, List<String> assignees, Map<String, Object> variables) {
