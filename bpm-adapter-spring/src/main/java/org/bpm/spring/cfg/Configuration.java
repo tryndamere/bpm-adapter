@@ -25,6 +25,10 @@ public interface Configuration extends Environment{
     public Properties getProperties();
 
 
+    /**
+     * 获取流程引擎的类型
+     * @return
+     */
     public EngineType getEngineType();
 
     /**

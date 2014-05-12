@@ -7,6 +7,9 @@ import org.bpm.engine.runtime.BpmRuntime;
  * Created by rocky on 14-5-4.
  */
 public interface BpmEngine {
+
     public BpmRuntime getBpmRuntime();
+
+    public void close();
 
 }
