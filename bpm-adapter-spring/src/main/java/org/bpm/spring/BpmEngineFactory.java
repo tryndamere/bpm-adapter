@@ -16,6 +16,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternUtils;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -35,6 +36,8 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
 
     private Properties properties;
 
+    private PlatformTransactionManager transactionManager;
+
     /**
      * bpm服务提供者
      */
@@ -49,10 +52,16 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
     protected Configuration configuration;
 
 
-    public Configuration getConfiguration() {
-        if (this.configuration == null) {
-            throw new IllegalStateException("配置没有初始化");
+    public Configuration getConfiguration(){
+        if(configuration==null){
+            BpmConfiguration bpmConfiguration =  new BpmConfiguration();
+            bpmConfiguration.setApplicationContext(applicationContext);
+            bpmConfiguration.setTransactionManager(transactionManager);
+            bpmConfiguration.setDataSource(dataSource);
+            configuration = bpmConfiguration;
         }
+        configuration.addProperties(getProperties());
+
         return this.configuration;
     }
 
@@ -75,6 +84,14 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
     public DataSource getDataSource() {
         return this.dataSource;
     }
+    public PlatformTransactionManager getTransactionManager() {
+        return transactionManager;
+    }
+
+    public void setTransactionManager(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
+
 
     public Properties getProperties() {
         if (this.properties == null) {
@@ -165,18 +182,15 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
 
 
     protected BpmEngine buildBpmEngine() throws Exception {
-        Configuration cfg = newConfiguration();
+        Configuration cfg = getConfiguration();
         cfg.addProperties(getProperties());
         configuration = cfg;
         return buildBpmEngine(cfg);
     }
 
     private BpmEngine buildBpmEngine(Configuration cfg) {
-        return cfg.buildBpmEngine(applicationContext);
+        return cfg.buildBpmEngine();
     }
 
-    protected Configuration newConfiguration(){
-        return new BpmConfiguration();
-    }
 
 }

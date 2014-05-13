@@ -14,10 +14,16 @@ public class BpmEngineImpl implements BpmEngine{
     protected ApplicationContext applicationContext;
     protected BpmRuntime bpmRuntime;
 
-    public BpmEngineImpl(Configuration configuration,ApplicationContext applicationContext){
+    public BpmEngineImpl(Configuration configuration){
         this.configuration = configuration;
-        this.applicationContext = applicationContext;
-        bpmRuntime = configuration.getEngineType().createBpmRuntime(configuration,applicationContext);
+        this.applicationContext = configuration.getApplicationContext();
+
+        EngineType engineType = configuration.getEngineType();
+
+
+
+        bpmRuntime = engineType.createBpmRuntime(configuration);
+
 
     }
 
