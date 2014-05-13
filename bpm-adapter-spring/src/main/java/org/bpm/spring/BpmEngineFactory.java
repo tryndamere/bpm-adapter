@@ -57,11 +57,7 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
 
     public Configuration newConfiguration(){
         if(configuration==null){
-            Configuration bpmConfiguration =  new Configuration();
-            bpmConfiguration.setApplicationContext(applicationContext);
-            bpmConfiguration.setTransactionManager(transactionManager);
-            bpmConfiguration.setDataSource(dataSource);
-            return bpmConfiguration;
+            return new Configuration();
         }
         return configuration;
     }
@@ -189,8 +185,16 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
         if (this.properties != null) {
             configuration.addProperties(this.properties);
         }
+        buildConfiguration();
 
         return buildBpmEngine(configuration);
+    }
+
+    private void buildConfiguration() {
+        configuration.setApplicationContext(applicationContext);
+        configuration.setTransactionManager(transactionManager);
+        configuration.setDataSource(dataSource);
+
     }
 
     private BpmEngine buildBpmEngine(Configuration cfg) {

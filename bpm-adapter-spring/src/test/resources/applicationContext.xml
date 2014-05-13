@@ -65,9 +65,7 @@
     </bean>
 
 
-
     <bean id="bpmEngineFactory" class="org.bpm.spring.BpmEngineFactory" destroy-method="destroy">
-
         <property name="dataSource" ref="dataSource"/>
         <property name="transactionManager" ref="transactionManager"/>
 

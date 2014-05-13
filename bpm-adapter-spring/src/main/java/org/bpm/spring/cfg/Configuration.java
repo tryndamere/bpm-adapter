@@ -16,7 +16,7 @@ import java.util.Properties;
 /**
  * Created by serv on 14-5-7.
  */
-public class Configuration implements ApplicationContextAware,Serializable,Environment{
+public class Configuration implements Serializable,Environment{
 
     private Properties properties;
 
@@ -111,7 +111,6 @@ public class Configuration implements ApplicationContextAware,Serializable,Envir
         return this;
     }
 
-    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
