@@ -27,11 +27,9 @@ public enum EngineType implements ServiceCreator{
     ACTIVITI(){
         @Override
         public BpmRuntime createBpmRuntime(Configuration configuration) {
-            BpmRuntime bean =  getSpringAutowireBean(configuration, ActivitiRuntimeImpl.class);
+            BpmRuntime bean =  getProxySpringAutowireBean(configuration, ActivitiRuntimeImpl.class);
 
-            FacadeProxy proxy = new FacadeProxy(configuration.getTransactionManager());
-
-            return (BpmRuntime) proxy.bind(bean);
+            return bean;
         }
     },JBPM4{
         @Override
@@ -46,10 +44,13 @@ public enum EngineType implements ServiceCreator{
     };
 
 
-    public <T extends BpmRuntime> T getSpringAutowireBean(Configuration configuration, Class cls){
+    public <T extends BpmRuntime> T getProxySpringAutowireBean(Configuration configuration, Class cls){
         T bean = (T) configuration.getApplicationContext().getAutowireCapableBeanFactory()
                 .createBean(cls, AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, true);
-        return bean;
+
+        FacadeProxy proxy = new FacadeProxy(configuration.getTransactionManager());
+
+        return (T) proxy.bind(bean);
     }
 
 

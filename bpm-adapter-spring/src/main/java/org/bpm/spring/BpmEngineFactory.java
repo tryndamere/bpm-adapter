@@ -2,7 +2,6 @@ package org.bpm.spring;
 
 import org.bpm.common.exception.PlatformException;
 import org.bpm.engine.BpmEngine;
-import org.bpm.spring.cfg.BpmConfiguration;
 import org.bpm.spring.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +53,7 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
 
     public Configuration getConfiguration(){
         if(configuration==null){
-            BpmConfiguration bpmConfiguration =  new BpmConfiguration();
+            Configuration bpmConfiguration =  new Configuration();
             bpmConfiguration.setApplicationContext(applicationContext);
             bpmConfiguration.setTransactionManager(transactionManager);
             bpmConfiguration.setDataSource(dataSource);
