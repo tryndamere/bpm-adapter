@@ -3,30 +3,29 @@ package org.bpm.spring;
 import org.bpm.common.exception.PlatformException;
 import org.bpm.engine.BpmEngine;
 import org.bpm.spring.cfg.Configuration;
+import org.bpm.spring.cfg.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.*;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.Properties;
 
 /**
  * 引擎工厂,生成各种service接口,及
  * Created by serv on 14-5-7.
  */
-public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationContextAware,InitializingBean, DisposableBean,ResourceLoaderAware {
+public class BpmEngineFactory implements FactoryBean<BpmEngine>,BeanFactoryAware, ApplicationContextAware,InitializingBean, DisposableBean {
 
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -42,6 +41,8 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
 
 
     private PlatformTransactionManager transactionManager;
+
+    private DefaultListableBeanFactory beanFactory;
 
     /**
      * bpm服务提供者
@@ -179,12 +180,6 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
 
 
 
-    @Override
-    public void setResourceLoader(ResourceLoader resourceLoader) {
-        this.resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
-    }
-
-
     protected BpmEngine buildBpmEngine() throws Exception {
 
         configuration  = newConfiguration();
@@ -204,15 +199,6 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
                 configuration.addProperties(props);
 
             }
-        }
-
-        //根据流程引擎类型. 放入对应的属性值
-        if(configuration.getEngineType().equals(EngineType.ACTIVITI)){
-            Properties props = new Properties();
-            PropertiesLoaderUtils.fillProperties(
-                    props, resourcePatternResolver.getResource("classpath:activiti.properties"));
-
-            configuration.setActivitiProperties(props);
         }
 
 
@@ -240,4 +226,35 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
     public void setLocations(Resource[] locations) {
         this.locations = locations;
     }
+
+
+    /**
+     * 将一些必要的Bean声明到spring 容器中
+     * @param beanFactory
+     * @throws BeansException
+     */
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+
+        this.beanFactory = (DefaultListableBeanFactory) beanFactory;
+
+        if(getProperties().getProperty(Environment.ENGINE_TYPE).equals(Environment.ACTIVITI_ENGINE_TYPE)){
+
+            //根据流程引擎类型. 放入对应的属性值
+            Properties props = new Properties();
+            try {
+                PropertiesLoaderUtils.fillProperties(
+                        props, resourcePatternResolver.getResource("classpath:activiti.properties"));
+            } catch (IOException e) {
+                log.error(e.getMessage(),e);
+                throw new  RuntimeException("加载流程引擎属性文件出错:"+e.getMessage(),e);
+            }
+
+            new ActivitiEngineInitialize(this.beanFactory,props).init();
+
+        }
+
+    }
+
+
 }

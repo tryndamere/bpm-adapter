@@ -1,10 +1,9 @@
 package org.bpm.spring.impl;
 
-import org.activiti.engine.RuntimeService;
+import org.activiti.engine.ProcessEngine;
 import org.bpm.engine.impl.vo.BpmTask;
 import org.bpm.engine.runtime.BpmRuntime;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +12,10 @@ import java.util.Map;
  */
 public class ActivitiRuntimeImpl extends BaseServiceImpl implements BpmRuntime{
 
-    RuntimeService runtimeService;
+    ProcessEngine processEngine;
 
-    public void setRuntimeService(RuntimeService runtimeService) {
-        this.runtimeService = runtimeService;
+    public void setProcessEngine(ProcessEngine processEngine) {
+        this.processEngine = processEngine;
     }
 
     @Override

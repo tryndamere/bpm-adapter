@@ -1,4 +1,3 @@
-import org.activiti.engine.RuntimeService;
 import org.bpm.engine.runtime.BpmRuntime;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,6 @@ public class Test {
 
     @Autowired
     BpmRuntime bpmRuntime;
-    @Autowired
-    RuntimeService runtimeService;
 
     @org.junit.Test
     public void test02(){

@@ -1,9 +1,7 @@
 package org.bpm.spring.cfg;
 
-import org.bpm.common.exception.impl.InternalErrorException;
 import org.bpm.engine.BpmEngine;
 import org.bpm.spring.BpmEngineImpl;
-import org.bpm.spring.EngineType;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -18,8 +16,6 @@ import java.util.Properties;
 public class Configuration implements Serializable,Environment{
 
     private Properties properties;
-
-    private Properties activitiProperties;
 
     private ApplicationContext applicationContext;
 
@@ -78,34 +74,6 @@ public class Configuration implements Serializable,Environment{
         return this.properties;
     }
 
-    /**
-     * 获取流程引擎的类型
-     * @return
-     */
-    public EngineType getEngineType() {
-
-        String engineType = getProperty(ENGINE_TYPE);
-
-        return getType(engineType);
-    }
-
-    private EngineType getType(String typeName){
-
-        if(typeName==null){
-            throw new InternalErrorException("没有配置默认流程引擎");
-        }
-
-        if(typeName.equals(ACTIVITI_ENGINE_TYPE)){
-            return EngineType.ACTIVITI;
-        }
-        if(typeName.equals(JBPM4_ENGINE_TYPE)){
-            return EngineType.JBPM4;
-        }
-        if(typeName.equals(JBPM6_ENGINE_TYPE)){
-            return EngineType.JBPM6;
-        }
-        throw new InternalErrorException("流程引擎配置参数出错");
-    }
 
     public Configuration addProperties(Properties properties) {
         this.getProperties().putAll(properties);
@@ -124,11 +92,4 @@ public class Configuration implements Serializable,Environment{
         this.dataSource = dataSource;
     }
 
-    public Properties getActivitiProperties() {
-        return activitiProperties;
-    }
-
-    public void setActivitiProperties(Properties activitiProperties) {
-        this.activitiProperties = activitiProperties;
-    }
 }

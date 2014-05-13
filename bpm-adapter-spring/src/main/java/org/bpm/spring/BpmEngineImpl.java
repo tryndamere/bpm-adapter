@@ -3,6 +3,8 @@ package org.bpm.spring;
 import org.bpm.engine.BpmEngine;
 import org.bpm.engine.runtime.BpmRuntime;
 import org.bpm.spring.cfg.Configuration;
+import org.bpm.spring.impl.BaseServiceImpl;
+import org.bpm.spring.impl.ServiceInvocationHandler;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -18,11 +20,8 @@ public class BpmEngineImpl implements BpmEngine{
         this.configuration = configuration;
         this.applicationContext = configuration.getApplicationContext();
 
-        EngineType engineType = configuration.getEngineType();
 
-
-
-        bpmRuntime = engineType.createBpmRuntime(configuration);
+        bpmRuntime = createBpmRuntime(configuration);
 
 
     }
@@ -30,6 +29,16 @@ public class BpmEngineImpl implements BpmEngine{
     @Override
     public BpmRuntime getBpmRuntime() {
         return bpmRuntime;
+    }
+
+    public BpmRuntime createBpmRuntime(Configuration configuration) {
+        BpmRuntime bean = configuration.getApplicationContext().getAutowireCapableBeanFactory().getBean(BpmRuntime.class);
+
+        if(bean instanceof BaseServiceImpl){
+            return new ServiceInvocationHandler(bean,configuration).proxy();
+
+        }
+        return bean;
     }
 
     public void close(){
