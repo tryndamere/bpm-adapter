@@ -60,8 +60,6 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
             bpmConfiguration.setDataSource(dataSource);
             configuration = bpmConfiguration;
         }
-        configuration.addProperties(getProperties());
-
         return this.configuration;
     }
 
