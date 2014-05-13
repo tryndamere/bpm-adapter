@@ -180,10 +180,10 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
 
 
     protected BpmEngine buildBpmEngine() throws Exception {
-        Configuration cfg = getConfiguration();
-        cfg.addProperties(getProperties());
-        configuration = cfg;
-        return buildBpmEngine(cfg);
+        configuration = getConfiguration();
+        configuration.addProperties(getProperties());
+
+        return buildBpmEngine(configuration);
     }
 
     private BpmEngine buildBpmEngine(Configuration cfg) {
