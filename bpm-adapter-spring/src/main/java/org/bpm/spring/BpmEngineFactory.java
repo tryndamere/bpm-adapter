@@ -238,7 +238,9 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>,BeanFactoryAware
 
         this.beanFactory = (DefaultListableBeanFactory) beanFactory;
 
-        if(getProperties().getProperty(Environment.ENGINE_TYPE).equals(Environment.ACTIVITI_ENGINE_TYPE)){
+        Boolean isActiviti = getProperties().getProperty(Environment.ENGINE_TYPE).equals(Environment.ACTIVITI_ENGINE_TYPE);
+
+        if(isActiviti){
 
             //根据流程引擎类型. 放入对应的属性值
             Properties props = new Properties();
