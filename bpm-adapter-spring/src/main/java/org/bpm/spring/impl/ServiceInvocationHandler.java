@@ -1,6 +1,8 @@
 package org.bpm.spring.impl;
 
 import org.bpm.common.exception.impl.TransientDataAccessException;
+import org.bpm.spring.cfg.Configuration;
+import org.bpm.spring.cfg.Environment;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -21,13 +23,22 @@ public class ServiceInvocationHandler implements InvocationHandler{
 
     protected PlatformTransactionManager transactionManager;
 
+    protected int transactionPropagation;
+
     /**
      * @param target 要代理的对象
-     * @param transactionManager 事务控制器
-     */
-    public ServiceInvocationHandler(Object target,PlatformTransactionManager transactionManager){
+     * @param configuration 属性管理器
+    */
+    public ServiceInvocationHandler(Object target,Configuration configuration){
         this.target = target;
-        this.transactionManager = transactionManager;
+        transactionManager = configuration.getTransactionManager();
+        String tfs = configuration.getProperty(Environment.TRANSACTION_PROPAGATION);
+        if(tfs==null){
+            transactionPropagation = TransactionDefinition.PROPAGATION_MANDATORY;
+        }else{
+            transactionPropagation = Integer.valueOf(tfs);
+        }
+
     }
 
     public <T> T proxy(){
@@ -43,7 +54,7 @@ public class ServiceInvocationHandler implements InvocationHandler{
     @Override
      public Object invoke(Object proxy,final Method method,final Object[] args) throws Throwable {
         TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
-        transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_MANDATORY);
+        transactionTemplate.setPropagationBehavior(transactionPropagation);
 
         Object result = transactionTemplate.execute(new TransactionCallback<Object>() {
             public Object doInTransaction(TransactionStatus status) {

@@ -72,6 +72,8 @@
         <property name="properties">
             <props>
                 <prop key="bpm_engine_type" >activiti</prop>
+                <!-- @see org.springframework.transaction.TransactionDefinition -->
+                <prop key="transaction_propagation">2</prop>
             </props>
         </property>
     </bean>

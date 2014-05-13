@@ -36,7 +36,7 @@ public enum EngineType implements ServiceCreator{
         T bean = (T) configuration.getApplicationContext().getAutowireCapableBeanFactory()
                 .createBean(cls, AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, true);
 
-        return new ServiceInvocationHandler(bean,configuration.getTransactionManager()).proxy();
+        return new ServiceInvocationHandler(bean,configuration).proxy();
 
     }
 
