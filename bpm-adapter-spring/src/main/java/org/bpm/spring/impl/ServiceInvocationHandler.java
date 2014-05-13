@@ -63,6 +63,10 @@ public class ServiceInvocationHandler implements InvocationHandler{
     public Object execute(Object target,Method method,Object[] args){
         Object result = null;
         try {
+
+            if(target instanceof BaseServiceImpl){
+                ((BaseServiceImpl) target).beforeMethodInvoke(method, args);
+            } 
             result = method.invoke(target, args);
 
             if(target instanceof BaseServiceImpl){

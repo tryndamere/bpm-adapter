@@ -19,4 +19,7 @@ public class BaseServiceImpl {
 
     }
 
+    public void beforeMethodInvoke(Method method, Object[] args) {
+        log.info("开始调用{}类的{}方法,参数为：{}",this.getClass().getName(),method.getName(),args);
+    }
 }
