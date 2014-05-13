@@ -6,7 +6,6 @@ import org.bpm.spring.BpmEngineImpl;
 import org.bpm.spring.EngineType;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -19,6 +18,8 @@ import java.util.Properties;
 public class Configuration implements Serializable,Environment{
 
     private Properties properties;
+
+    private Properties activitiProperties;
 
     private ApplicationContext applicationContext;
 
@@ -121,5 +122,13 @@ public class Configuration implements Serializable,Environment{
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public Properties getActivitiProperties() {
+        return activitiProperties;
+    }
+
+    public void setActivitiProperties(Properties activitiProperties) {
+        this.activitiProperties = activitiProperties;
     }
 }

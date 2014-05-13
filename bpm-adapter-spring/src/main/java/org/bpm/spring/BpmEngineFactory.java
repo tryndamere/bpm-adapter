@@ -11,8 +11,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -34,6 +36,10 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
     private DataSource dataSource;
 
     private Properties properties;
+
+    private Resource[] locations;
+
+
 
     private PlatformTransactionManager transactionManager;
 
@@ -182,9 +188,34 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
     protected BpmEngine buildBpmEngine() throws Exception {
 
         configuration  = newConfiguration();
+
         if (this.properties != null) {
             configuration.addProperties(this.properties);
         }
+
+        if(this.locations!=null){
+            for (Resource resource:locations){
+
+                Properties props = new Properties();
+
+                PropertiesLoaderUtils.fillProperties(
+                        props, resource);
+
+                configuration.addProperties(props);
+
+            }
+        }
+
+        //根据流程引擎类型. 放入对应的属性值
+        if(configuration.getEngineType().equals(EngineType.ACTIVITI)){
+            Properties props = new Properties();
+            PropertiesLoaderUtils.fillProperties(
+                    props, resourcePatternResolver.getResource("classpath:activiti.properties"));
+
+            configuration.setActivitiProperties(props);
+        }
+
+
         buildConfiguration();
 
         return buildBpmEngine(configuration);
@@ -202,4 +233,11 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>, ApplicationCont
     }
 
 
+    public Resource[] getLocations() {
+        return locations;
+    }
+
+    public void setLocations(Resource[] locations) {
+        this.locations = locations;
+    }
 }
