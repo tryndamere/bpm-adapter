@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by serv on 14-5-7.
  */
-public class Jbpm4RuntimeImpl implements BpmRuntime{
+public class Jbpm4RuntimeImpl extends BaseServiceImpl implements BpmRuntime{
     @Override
     public void admin(String userId, String taskId, List<String> assignees, Map<String, Object> variables) {
 

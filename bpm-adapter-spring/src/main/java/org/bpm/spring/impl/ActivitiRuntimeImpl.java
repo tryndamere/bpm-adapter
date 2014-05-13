@@ -4,13 +4,14 @@ import org.activiti.engine.RuntimeService;
 import org.bpm.engine.impl.vo.BpmTask;
 import org.bpm.engine.runtime.BpmRuntime;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by serv on 14-5-7.
  */
-public class ActivitiRuntimeImpl implements BpmRuntime{
+public class ActivitiRuntimeImpl extends BaseServiceImpl implements BpmRuntime{
 
     RuntimeService runtimeService;
 
