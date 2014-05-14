@@ -253,6 +253,7 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>,BeanFactoryAware
             }
 
             new ActivitiEngineInitialize(this.beanFactory,props).init();
+            new MybatisInitalize(this.beanFactory).init();
 
         }
 

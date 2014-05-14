@@ -78,6 +78,6 @@
         </property>
     </bean>
 
-    <bean id="bpmRuntime" factory-bean="bpmEngineFactory" factory-method="getBpmRuntime"/>
+    <!--<bean id="bpmRuntime" factory-bean="bpmEngineFactory" factory-method="getBpmRuntime"/>-->
 
 </beans>

@@ -1,7 +1,7 @@
 package org.bpm.spring.impl;
 
 import org.activiti.engine.ProcessEngine;
-import org.bpm.engine.impl.vo.BpmTask;
+import org.bpm.engine.impl.activiti.vo.BpmTask;
 import org.bpm.engine.runtime.BpmRuntime;
 
 import java.util.List;

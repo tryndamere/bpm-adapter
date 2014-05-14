@@ -13,6 +13,14 @@
 	<packaging>jar</packaging>
 	
 	<dependencies>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+        </dependency>
 		<dependency>
 			<artifactId>bpm-adapter-common</artifactId>
 			<groupId>org.bpm</groupId>

@@ -1,3 +1,5 @@
+import org.bpm.db.BpmProcessConfigMapper;
+import org.bpm.db.po.BpmProcessConfig;
 import org.bpm.engine.runtime.BpmRuntime;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,19 @@ public class Test {
     @Autowired
     BpmRuntime bpmRuntime;
 
+    @Autowired
+    BpmProcessConfigMapper bpmProcessConfigMapper;
+
+
+
     @org.junit.Test
     public void test02(){
-
-        bpmRuntime.startProcess(null,null,null,null,null);
+        BpmProcessConfig bpmProcessConfig = new BpmProcessConfig();
+        bpmProcessConfig.setId("100");
+        bpmProcessConfig.setProcessDefKey("test");
+        bpmProcessConfig.setTaskDefKey("test");
+        bpmProcessConfig.setTaskConfig("xxxxxx");
+        bpmProcessConfig.setTaskDefType(BpmProcessConfig.TASK_DEF_TYPE.START.getValue());
+        bpmProcessConfigMapper.insert(bpmProcessConfig);
     }
 }
