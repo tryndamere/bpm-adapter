@@ -12,7 +12,7 @@ public class BaseServiceImpl {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    protected void afterMethodInvoke(Method method, Object[] args){
+    public void afterMethodInvoke(Method method, Object[] args){
         //overide and do some thing what you want to do!
         //这里可以记录一些操作历史
         log.info("调用了{}类的{}方法,参数为：{}",this.getClass().getName(),method.getName(),args);

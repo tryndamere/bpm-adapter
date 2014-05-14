@@ -1,10 +1,10 @@
-package org.bpm.spring;
+package org.bpm.spring.impl;
 
 import org.bpm.engine.BpmEngine;
+import org.bpm.engine.impl.BaseServiceImpl;
 import org.bpm.engine.runtime.BpmRuntime;
 import org.bpm.spring.cfg.Configuration;
-import org.bpm.spring.impl.BaseServiceImpl;
-import org.bpm.spring.impl.ServiceInvocationHandler;
+import org.bpm.spring.impl.proxy.ServiceInvocationHandler;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -36,7 +36,6 @@ public class BpmEngineImpl implements BpmEngine{
 
         if(bean instanceof BaseServiceImpl){
             return new ServiceInvocationHandler(bean,configuration).proxy();
-
         }
         return bean;
     }

@@ -1,8 +1,8 @@
-package org.bpm.spring;
+package org.bpm.spring.initialize;
 
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.spring.SpringProcessEngineConfiguration;
-import org.bpm.spring.impl.ActivitiRuntimeImpl;
+import org.bpm.engine.impl.activiti.ActivitiRuntimeImpl;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;

@@ -4,6 +4,8 @@ import org.bpm.common.exception.PlatformException;
 import org.bpm.engine.BpmEngine;
 import org.bpm.spring.cfg.Configuration;
 import org.bpm.spring.cfg.Environment;
+import org.bpm.spring.initialize.ActivitiEngineInitialize;
+import org.bpm.spring.initialize.MybatisInitalize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

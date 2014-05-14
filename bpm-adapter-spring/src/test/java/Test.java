@@ -1,5 +1,5 @@
-import org.bpm.db.BpmProcessConfigMapper;
-import org.bpm.db.po.BpmProcessConfig;
+import org.bpm.db.config.BpmProcessConfigMapper;
+import org.bpm.db.config.po.BpmProcessConfig;
 import org.bpm.engine.runtime.BpmRuntime;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

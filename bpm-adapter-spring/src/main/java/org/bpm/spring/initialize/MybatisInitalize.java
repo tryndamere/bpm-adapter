@@ -1,8 +1,8 @@
-package org.bpm.spring;
+package org.bpm.spring.initialize;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.bpm.db.BpmBaseDao;
-import org.bpm.db.BpmProcessConfigMapper;
+import org.bpm.db.config.BpmProcessConfigMapper;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;

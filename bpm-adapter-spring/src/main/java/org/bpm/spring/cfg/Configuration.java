@@ -1,7 +1,7 @@
 package org.bpm.spring.cfg;
 
 import org.bpm.engine.BpmEngine;
-import org.bpm.spring.BpmEngineImpl;
+import org.bpm.spring.impl.BpmEngineImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.PlatformTransactionManager;

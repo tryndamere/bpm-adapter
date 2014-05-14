@@ -1,4 +1,4 @@
-package org.bpm.spring.impl;
+package org.bpm.engine.impl.jbpm6;
 
 import org.bpm.engine.impl.activiti.vo.BpmTask;
 import org.bpm.engine.runtime.BpmRuntime;
@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by serv on 14-5-7.
+ * Created by rocky on 14-5-14.
  */
-public class Jbpm4RuntimeImpl extends BaseServiceImpl implements BpmRuntime{
+public class Jbpm6RuntimeImpl implements BpmRuntime {
     @Override
     public void admin(String userId, String taskId, List<String> assignees, Map<String, Object> variables) {
 

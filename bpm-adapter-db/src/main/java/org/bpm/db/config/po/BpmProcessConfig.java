@@ -1,4 +1,4 @@
-package org.bpm.db.po;
+package org.bpm.db.config.po;
 
 /**
  * Created by rocky on 14-5-14.

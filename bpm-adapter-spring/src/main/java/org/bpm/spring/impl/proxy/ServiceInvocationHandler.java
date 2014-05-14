@@ -1,6 +1,7 @@
-package org.bpm.spring.impl;
+package org.bpm.spring.impl.proxy;
 
 import org.bpm.common.exception.impl.TransientDataAccessException;
+import org.bpm.engine.impl.BaseServiceImpl;
 import org.bpm.spring.cfg.Configuration;
 import org.bpm.spring.cfg.Environment;
 import org.springframework.transaction.PlatformTransactionManager;
