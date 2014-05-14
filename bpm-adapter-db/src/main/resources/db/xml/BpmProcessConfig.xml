@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.bpm.db.po.BpmProcessConfig">
+
+	<sql id="baseColumnSql">
+	      ID ,
+          PROCESS_DEF_KEY ,
+          TASK_DEF_KEY ,
+          TASK_DEF_TYPE ,
+          TASK_CONFIG
+	</sql>
+
+	<sql id="baseWhereSql">
+		<where>
+			<if test="map.id != null">
+                ID = #{map.id}
+			</if>
+			<if test="map.processDefKey != null">
+				AND PROCESS_DEF_KEY = #{map.processDefKey}
+			</if>
+			<if test="map.taskDefKey != null">
+				AND TASK_DEF_KEY = #{map.taskDefKey}
+			</if>
+			<if test="map.taskDefType != null">
+				AND TASK_DEF_TYPE = #{map.taskDefType}
+			</if>
+			<if test="map.taskConfig != null">
+				AND TASK_CONFIG = #{map.taskConfig}
+			</if>
+		</where>
+	</sql>
+
+	<insert id="insertBpmProcessConfig" parameterType="bpmProcessConfig">
+		INSERT INTO BPM_PROCESS_CONFIG(
+	    	<include refid="baseColumnSql"/>
+		)VALUES(
+             #{id},
+             #{processDefKey},
+             #{taskDefKey},
+             #{taskDefType},
+             #{taskConfig}
+        )
+	</insert>
+
+
+</mapper>

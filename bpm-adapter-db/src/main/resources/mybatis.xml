@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!--<properties>  -->
+        <!--<property name="dialect"  value="MYSQL" />-->
+    <!--</properties>-->
+	<typeAliases>
+		<typeAlias type="org.bpm.db.po.BpmProcessConfig" alias="bpmProcessConfig"/><!--系统  -->
+	</typeAliases>
+	<!--<plugins>-->
+		<!--<plugin interceptor="com.donfer.pagination.PaginationInterception"></plugin>-->
+	<!--</plugins>-->
+    <mappers>
+        <mapper resource="db/xml/BpmProcessConfig.xml"/><!-- 系统表 -->
+    </mappers>
+</configuration>
