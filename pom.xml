@@ -248,6 +248,7 @@
         <module>bpm-adapter-db</module>
         <module>bpm-adapter-rest</module>
 		<module>bpm-adapter-common</module>
+        <module>bpm-adapter-test</module>
     </modules>
 
     <build>
