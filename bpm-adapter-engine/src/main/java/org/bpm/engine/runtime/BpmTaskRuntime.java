@@ -1,6 +1,6 @@
 package org.bpm.engine.runtime;
 
-import org.bpm.engine.impl.vo.BpmTask;
+import org.bpm.engine.impl.activiti.vo.BpmTask;
 
 import java.util.List;
 import java.util.Map;

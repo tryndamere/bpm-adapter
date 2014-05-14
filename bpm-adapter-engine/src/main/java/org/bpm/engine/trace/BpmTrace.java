@@ -1,6 +1,6 @@
 package org.bpm.engine.trace;
 
-import org.bpm.engine.impl.vo.BpmTask;
+import org.bpm.engine.impl.activiti.vo.BpmTask;
 
 import java.io.InputStream;
 import java.util.List;

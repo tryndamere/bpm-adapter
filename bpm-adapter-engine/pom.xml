@@ -19,6 +19,10 @@
             <groupId>org.bpm</groupId>
             <artifactId>bpm-adapter-db</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-engine</artifactId>
+        </dependency>
     </dependencies>
 
 
