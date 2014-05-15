@@ -80,7 +80,7 @@ public @interface DynamicBean {
      * 默认单例
      * @return
      */
-    String scope() default ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+    String scope() default ConfigurableBeanFactory.SCOPE_SINGLETON;
 
 
     /**
