@@ -20,8 +20,18 @@
             <artifactId>bpm-adapter-db</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.bpm</groupId>
+            <artifactId>bpm-adapter-common</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-engine</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

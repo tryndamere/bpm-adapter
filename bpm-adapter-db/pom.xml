@@ -14,6 +14,11 @@
 	
 	<dependencies>
         <dependency>
+            <groupId>org.bpm</groupId>
+            <artifactId>bpm-adapter-common</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
         </dependency>
@@ -25,5 +30,11 @@
 			<artifactId>bpm-adapter-common</artifactId>
 			<groupId>org.bpm</groupId>
 		</dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 </project>

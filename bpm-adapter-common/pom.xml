@@ -10,4 +10,14 @@
 	<artifactId>bpm-adapter-common</artifactId>
 	<name>BPM适配器通用包</name>
 	<description>用于定义基础异常体系以及工具类的存在</description>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>

@@ -2,38 +2,61 @@ package org.bpm.spring.initialize;
 
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.spring.SpringProcessEngineConfiguration;
-import org.bpm.engine.impl.activiti.ActivitiRuntimeImpl;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.bpm.common.exception.impl.BusinessException;
+import org.bpm.spring.initialize.init.AbstractBeanDefinitionImpl;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+
+import static org.springframework.beans.factory.support.BeanDefinitionBuilder.rootBeanDefinition;
 
 /**
  * Created by serv on 14-5-14.
  */
-public class ActivitiEngineInitialize {
+public class ActivitiEngineInitialize extends AbstractBeanDefinitionImpl {
 
+    private ResourcePatternResolver resourcePatternResolver;
     private Properties properties;
-    private DefaultListableBeanFactory beanFactory;
 
-    public ActivitiEngineInitialize(DefaultListableBeanFactory beanFactory, Properties properties){
-        this.beanFactory = beanFactory;
-        this.properties = properties;
+    public ActivitiEngineInitialize(DefaultListableBeanFactory beanFactory, ResourcePatternResolver resourcePatternResolver) {
+        super(beanFactory);
+        this.resourcePatternResolver = resourcePatternResolver;
+
+        //根据流程引擎类型. 放入对应的属性值
+        properties = new Properties();
+        try {
+            PropertiesLoaderUtils.fillProperties(
+                    properties, resourcePatternResolver.getResource("classpath:activiti.properties"));
+        } catch (IOException e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessException("加载流程引擎属性文件出错:"+e.getMessage(),e);
+        }
     }
 
 
-    public void init(){
+    @Override
+    public Map<String, AbstractBeanDefinition> createBeanDefinitions() {
+        Map<String, AbstractBeanDefinition> definitionMap = new HashMap<String, AbstractBeanDefinition>();
+        definitionMap.put("processEngineConfiguration",createProcessEngineConfigurationDef());
+        definitionMap.put("processEngine",createProcessEngine());
 
-        BeanDefinitionBuilder bpmRuntime = BeanDefinitionBuilder.rootBeanDefinition(ActivitiRuntimeImpl.class);
-        bpmRuntime.setAutowireMode(AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE);
-        beanFactory.registerBeanDefinition("bpmRuntime", bpmRuntime.getBeanDefinition());
+        return definitionMap;
+    }
 
 
-        //初始化activiti配置管理器
-        BeanDefinitionBuilder sef = BeanDefinitionBuilder.rootBeanDefinition(SpringProcessEngineConfiguration.class);
+
+
+    private AbstractBeanDefinition createProcessEngineConfigurationDef(){
+        BeanDefinitionBuilder sef = rootBeanDefinition(SpringProcessEngineConfiguration.class);
         sef.addPropertyReference("dataSource",beanFactory.getBeanNamesForType(DataSource.class)[0]);
         sef.addPropertyReference("transactionManager", beanFactory.getBeanNamesForType(PlatformTransactionManager.class)[0]);
         sef.addPropertyValue("databaseSchemaUpdate", "true");
@@ -41,23 +64,14 @@ public class ActivitiEngineInitialize {
         sef.addPropertyValue("labelFontName",properties.getProperty("labelFontName"));
         sef.addPropertyValue("history",properties.getProperty("history"));
         sef.addPropertyValue("jobExecutorActivate",properties.getProperty("jobExecutorActivate"));
-        beanFactory.registerBeanDefinition("processEngineConfiguration", sef.getBeanDefinition());
+        return sef.getBeanDefinition();
+    }
 
-        //初始化activiti工厂
-        BeanDefinitionBuilder bd = BeanDefinitionBuilder.rootBeanDefinition(ProcessEngineFactoryBean.class);
+    private AbstractBeanDefinition createProcessEngine(){
+        BeanDefinitionBuilder bd = rootBeanDefinition(ProcessEngineFactoryBean.class);
         bd.addPropertyReference("processEngineConfiguration","processEngineConfiguration");
         bd.setDestroyMethodName("destroy");
-        beanFactory.registerBeanDefinition("processEngine", bd.getBeanDefinition());
-
-
-        //初始化runtimeService
-//        BeanDefinitionBuilder runtime = BeanDefinitionBuilder.rootBeanDefinition(RuntimeService.class);
-//        AbstractBeanDefinition rawBeanDefinition = runtime.getRawBeanDefinition();
-//        rawBeanDefinition.setFactoryBeanName("processEngine");
-//        rawBeanDefinition.setFactoryMethodName("getRuntimeService");
-//        beanFactory.registerBeanDefinition("runtimeService", runtime.getBeanDefinition());
-
-
+        return bd.getBeanDefinition();
     }
 
 }

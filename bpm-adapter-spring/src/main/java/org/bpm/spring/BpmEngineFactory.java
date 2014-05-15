@@ -3,9 +3,8 @@ package org.bpm.spring;
 import org.bpm.common.exception.PlatformException;
 import org.bpm.engine.BpmEngine;
 import org.bpm.spring.cfg.Configuration;
-import org.bpm.spring.cfg.Environment;
-import org.bpm.spring.initialize.ActivitiEngineInitialize;
-import org.bpm.spring.initialize.MybatisInitalize;
+import org.bpm.engine.Environment;
+import org.bpm.spring.initialize.init.BeanManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -14,13 +13,12 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
-import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -40,7 +38,7 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>,BeanFactoryAware
 
     private Resource[] locations;
 
-
+    private String[] beanPackagesToScan;
 
     private PlatformTransactionManager transactionManager;
 
@@ -52,7 +50,7 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>,BeanFactoryAware
     protected BpmEngine bpmEngine;
 
 
-    protected ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+    protected BeanManager beanManager = new BeanManager();
 
     /**
      * bpm 配置
@@ -115,6 +113,7 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>,BeanFactoryAware
 
         BpmEngine be = buildBpmEngine();
         this.bpmEngine = wrapBpmEngineIfNecessary(be);
+
         afterBpmEngineCreation();
     }
 
@@ -232,33 +231,34 @@ public class BpmEngineFactory implements FactoryBean<BpmEngine>,BeanFactoryAware
 
     /**
      * 将一些必要的Bean声明到spring 容器中
-     * @param beanFactory
-     * @throws BeansException
      */
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 
         this.beanFactory = (DefaultListableBeanFactory) beanFactory;
 
-        Boolean isActiviti = getProperties().getProperty(Environment.ENGINE_TYPE).equals(Environment.ACTIVITI_ENGINE_TYPE);
+        beanManager.setBeanFactory(this.beanFactory);
+        beanManager.setBeanPackagesToScan(this.mergeBeanPackagesToScan());
 
-        if(isActiviti){
+        beanManager.setProcessEngineType(getProperties().getProperty(Environment.ENGINE_TYPE));
 
-            //根据流程引擎类型. 放入对应的属性值
-            Properties props = new Properties();
-            try {
-                PropertiesLoaderUtils.fillProperties(
-                        props, resourcePatternResolver.getResource("classpath:activiti.properties"));
-            } catch (IOException e) {
-                log.error(e.getMessage(),e);
-                throw new  RuntimeException("加载流程引擎属性文件出错:"+e.getMessage(),e);
-            }
+        beanManager.buildBpmBeans().init();
+    }
 
-            new ActivitiEngineInitialize(this.beanFactory,props).init();
-            new MybatisInitalize(this.beanFactory).init();
-
+    public String[] mergeBeanPackagesToScan() {
+        if(beanPackagesToScan==null){
+            return new String[]{Environment.BEAN_PACKAGE_SCAN,Environment.REPOSITORY_PACKAGE_SCAN};
+        }else{
+            List<String> strings = Arrays.asList(beanPackagesToScan);
+            strings.add(Environment.BEAN_PACKAGE_SCAN);
+            strings.add(Environment.REPOSITORY_PACKAGE_SCAN);
+            return (String[]) strings.toArray();
+//            return ArrayUtils.add(beanPackagesToScan,Environment.BEAN_PACKAGE_SCAN);
         }
+    }
 
+    public void setBeanPackagesToScan(String[] beanPackagesToScan) {
+        this.beanPackagesToScan = beanPackagesToScan;
     }
 
 

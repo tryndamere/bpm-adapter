@@ -1,6 +1,7 @@
 package org.bpm.spring.cfg;
 
 import org.bpm.engine.BpmEngine;
+import org.bpm.engine.Environment;
 import org.bpm.spring.impl.BpmEngineImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -13,7 +14,7 @@ import java.util.Properties;
 /**
  * Created by serv on 14-5-7.
  */
-public class Configuration implements Serializable,Environment{
+public class Configuration implements Serializable,Environment {
 
     private Properties properties;
 

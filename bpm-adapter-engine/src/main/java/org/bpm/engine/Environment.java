@@ -1,4 +1,4 @@
-package org.bpm.spring.cfg;
+package org.bpm.engine;
 
 /**
  * Created by serv on 14-5-13.
@@ -13,6 +13,10 @@ public interface Environment {
 
 
     String TRANSACTION_PROPAGATION = "transaction_propagation";
+
+
+    String BEAN_PACKAGE_SCAN = "org.bpm.engine";
+    String REPOSITORY_PACKAGE_SCAN = "org.bpm.db";
 
 
 }

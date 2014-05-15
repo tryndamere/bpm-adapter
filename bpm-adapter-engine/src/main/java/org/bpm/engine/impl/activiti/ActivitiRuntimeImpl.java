@@ -1,8 +1,12 @@
 package org.bpm.engine.impl.activiti;
 
 import org.activiti.engine.runtime.ProcessInstance;
+import org.bpm.common.BeanName;
+import org.bpm.common.stereotype.DynamicBean;
+import org.bpm.engine.Environment;
 import org.bpm.engine.impl.activiti.vo.BpmTask;
 import org.bpm.engine.runtime.BpmRuntime;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +14,8 @@ import java.util.Map;
 /**
  * Created by rocky on 14-5-13.
  */
+@DynamicBean(beanName = BeanName.BEAN_NAME_BPM_RUNTIME,processEngineType = Environment.ACTIVITI_ENGINE_TYPE)
+@Transactional
 public class ActivitiRuntimeImpl extends ActivitiBaseService implements BpmRuntime {
     @Override
     public void admin(String userId, String taskId, List<String> assignees, Map<String, Object> variables) {
