@@ -7,16 +7,22 @@ public class BpmProcessConfig {
 
     public enum TASK_DEF_TYPE {
 
-        START("0") , END("1") , NORMAL("2") ;
+        START("0" , "开始") , END("1" , "结束") , NORMAL("2" , "一般") ;
 
         private String value ;
+        private String name ;
 
-        TASK_DEF_TYPE(String value){
+        TASK_DEF_TYPE(String value ,String name){
+            this.name = name ;
             this.value = value;
         }
 
         public String getValue(){
             return value;
+        }
+
+        public String getName(){
+            return name;
         }
     }
 

@@ -3,7 +3,7 @@
 
 <mapper namespace="org.bpm.db.config.po.BpmProcessConfig">
 
-	<sql id="baseColumnSql">
+    <sql id="baseColumnSql">
 	      ID ,
           PROCESS_DEF_KEY ,
           TASK_DEF_KEY ,
@@ -11,37 +11,43 @@
           TASK_CONFIG
 	</sql>
 
-	<sql id="baseWhereSql">
-		<where>
-			<if test="map.id != null">
+    <sql id="baseWhereSql">
+        <where>
+            <if test="map.id != null">
                 ID = #{map.id}
-			</if>
-			<if test="map.processDefKey != null">
-				AND PROCESS_DEF_KEY = #{map.processDefKey}
-			</if>
-			<if test="map.taskDefKey != null">
-				AND TASK_DEF_KEY = #{map.taskDefKey}
-			</if>
-			<if test="map.taskDefType != null">
-				AND TASK_DEF_TYPE = #{map.taskDefType}
-			</if>
-			<if test="map.taskConfig != null">
-				AND TASK_CONFIG = #{map.taskConfig}
-			</if>
-		</where>
-	</sql>
+            </if>
+            <if test="map.processDefKey != null">
+                AND PROCESS_DEF_KEY = #{map.processDefKey}
+            </if>
+            <if test="map.taskDefKey != null">
+                AND TASK_DEF_KEY = #{map.taskDefKey}
+            </if>
+            <if test="map.taskDefType != null">
+                AND TASK_DEF_TYPE = #{map.taskDefType}
+            </if>
+            <if test="map.taskConfig != null">
+                AND TASK_CONFIG = #{map.taskConfig}
+            </if>
+        </where>
+    </sql>
 
-	<insert id="insertBpmProcessConfig" parameterType="bpmProcessConfig">
-		INSERT INTO BPM_PROCESS_CONFIG(
-	    	<include refid="baseColumnSql"/>
-		)VALUES(
-             #{id},
-             #{processDefKey},
-             #{taskDefKey},
-             #{taskDefType},
-             #{taskConfig}
+    <insert id="insertBpmProcessConfig" parameterType="bpmProcessConfig">
+        INSERT INTO BPM_PROCESS_CONFIG(
+        <include refid="baseColumnSql"/>
+        )VALUES(
+        #{id},
+        #{processDefKey},
+        #{taskDefKey},
+        #{taskDefType},
+        #{taskConfig}
         )
-	</insert>
+    </insert>
+
+    <select id="searchBpmProcessConfigByTaskDefKey" parameterType="map" resultType="bpmProcessConfig">
+        SELECT
+        <include refid="baseColumnSql" />
+        BPM_PROCESS_CONFIG WHERE  TASK_DEF_TYPE = #{map.taskDefKey}
+    </select>
 
 
 </mapper>

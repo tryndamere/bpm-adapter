@@ -7,7 +7,6 @@ import java.util.Map;
 
 /**
  * 针对任务的操作类
- * TODO 代办是否应该出现相应的接口
  * Created by rocky on 14-5-4.
  */
 public interface BpmTaskRuntime {
@@ -63,23 +62,24 @@ public interface BpmTaskRuntime {
 
     /**
      * 加签
+     * @param userId 当前用户
      * @param taskId 当前任务ID
      * @param variables 流程参数
      */
-    public void addSignTask(String taskId , Map<String,Object> variables);
+    public void addSignTask(String userId , String taskId , Map<String,Object> variables);
 
     /**
      * 减签
      * @param taskId 任务ID
      * @param variables 流程参数
      */
-    public void reduceSignTask(String taskId , Map<String,Object> variables);
+    public void reduceSignTask(String userId , String taskId , Map<String,Object> variables);
 
     /**
      * 转办，将任务人员委托给他人办理
      * @param taskId 任务ID
      * @param delegatedUserId 被委托人
      */
-    public void delegateAssignee(String taskId , String delegatedUserId);
+    public void delegateAssignee(String userId , String taskId , String delegatedUserId);
 
 }

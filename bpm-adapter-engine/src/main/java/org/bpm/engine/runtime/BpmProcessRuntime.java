@@ -37,9 +37,10 @@ public interface BpmProcessRuntime {
 
     /**
      * 更新业务主键
+     * @param userId 当前用户
      * @param processInstanceId 流程实例ID
      * @param businessKey 业务主键
      */
-    public void updateBusinessKey(String processInstanceId, String businessKey);
+    public void updateBusinessKey(String userId ,String processInstanceId, String businessKey);
 
 }
