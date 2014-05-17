@@ -21,7 +21,7 @@ public class BpmEngineImpl implements BpmEngine{
         this.applicationContext = configuration.getApplicationContext();
 
 
-        bpmRuntime = createBpmRuntime(configuration);
+        bpmRuntime = createBpmRuntime();
 
 
     }
@@ -31,8 +31,8 @@ public class BpmEngineImpl implements BpmEngine{
         return bpmRuntime;
     }
 
-    public BpmRuntime createBpmRuntime(Configuration configuration) {
-        BpmRuntime bean = (BpmRuntime) configuration.getApplicationContext().getBean("org.bpm.engine.runtime.BpmRuntime");
+    public BpmRuntime createBpmRuntime() {
+        BpmRuntime bean = (BpmRuntime) applicationContext.getBean("org.bpm.engine.runtime.BpmRuntime");
 
         if(bean instanceof BaseServiceImpl){
             return new ServiceInvocationHandler(bean).proxy();
