@@ -2,7 +2,7 @@ package org.bpm.common.stereotype;
 
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
 
 import java.lang.annotation.*;
 
@@ -62,7 +62,7 @@ public @interface DynamicBean {
      * 获取对象之前是否检查依赖关系
      * @return
      */
-    int dependencyCheck() default RootBeanDefinition.DEPENDENCY_CHECK_NONE;
+    int dependencyCheck() default AbstractBeanDefinition.DEPENDENCY_CHECK_NONE;
 
     /**
      * 初始化方法名

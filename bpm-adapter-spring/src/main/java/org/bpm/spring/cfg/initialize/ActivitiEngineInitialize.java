@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import static org.springframework.beans.factory.support.BeanDefinitionBuilder.rootBeanDefinition;
+import static org.springframework.beans.factory.support.BeanDefinitionBuilder.genericBeanDefinition;
 
 /**
  * Created by serv on 14-5-14.
@@ -56,7 +56,7 @@ public class ActivitiEngineInitialize extends AbstractBeanDefinitionImpl {
 
 
     private AbstractBeanDefinition createProcessEngineConfigurationDef(){
-        BeanDefinitionBuilder sef = rootBeanDefinition(SpringProcessEngineConfiguration.class);
+        BeanDefinitionBuilder sef = genericBeanDefinition(SpringProcessEngineConfiguration.class);
         sef.addPropertyReference("dataSource",dataSourceBeanName);
         sef.addPropertyReference("transactionManager", transactionManagerBeanName);
         sef.addPropertyValue("databaseSchemaUpdate", "true");
@@ -68,7 +68,7 @@ public class ActivitiEngineInitialize extends AbstractBeanDefinitionImpl {
     }
 
     private AbstractBeanDefinition createProcessEngine(){
-        BeanDefinitionBuilder bd = rootBeanDefinition(ProcessEngineFactoryBean.class);
+        BeanDefinitionBuilder bd = genericBeanDefinition(ProcessEngineFactoryBean.class);
         bd.addPropertyReference("processEngineConfiguration","processEngineConfiguration");
         bd.setDestroyMethodName("destroy");
         return bd.getBeanDefinition();

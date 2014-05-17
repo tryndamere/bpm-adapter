@@ -8,7 +8,7 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.beans.factory.support.BeanDefinitionBuilder.rootBeanDefinition;
+import static org.springframework.beans.factory.support.BeanDefinitionBuilder.*;
 
 /**
  * Created by rocky on 14-5-14.
@@ -29,13 +29,13 @@ public class MybatisInitalize extends AbstractBeanDefinitionImpl {
         Map<String, AbstractBeanDefinition> definitionMap = new HashMap<String, AbstractBeanDefinition>();
 
 
-        BeanDefinitionBuilder sqlSessionFactoryBean = rootBeanDefinition(SqlSessionFactoryBean.class);
+        BeanDefinitionBuilder sqlSessionFactoryBean = genericBeanDefinition(SqlSessionFactoryBean.class);
         sqlSessionFactoryBean.addPropertyValue("configLocation", "classpath:mybatis.xml");
         sqlSessionFactoryBean.addPropertyReference("dataSource" , dataSourceBeanName);
         definitionMap.put("sqlSessionFactory", sqlSessionFactoryBean.getBeanDefinition());
 
 
-        BeanDefinitionBuilder sqlSessionTemplate = rootBeanDefinition(SqlSessionTemplate.class);
+        BeanDefinitionBuilder sqlSessionTemplate = genericBeanDefinition(SqlSessionTemplate.class);
         sqlSessionTemplate.addConstructorArgReference("sqlSessionFactory");
         sqlSessionTemplate.setScope("prototype");
         definitionMap.put("sqlSessionTemplate", sqlSessionTemplate.getBeanDefinition());

@@ -18,8 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.beans.factory.support.BeanDefinitionBuilder.childBeanDefinition;
-import static org.springframework.beans.factory.support.BeanDefinitionBuilder.rootBeanDefinition;
+import static org.springframework.beans.factory.support.BeanDefinitionBuilder.*;
 
 /**
 * Created by izerui.com on 14-5-15.
@@ -73,7 +72,7 @@ public class DynamicBeanInitialize extends AbstractBeanDefinitionImpl {
                                 beanDefinitionBuilder = childBeanDefinition(annot.parent());
                                 beanDefinitionBuilder.getRawBeanDefinition().setBeanClass(cls);
                             }else{
-                                beanDefinitionBuilder = rootBeanDefinition(className);
+                                beanDefinitionBuilder = genericBeanDefinition(className);
                             }
 
                             beanDefinitionBuilder.setAutowireMode(annot.autowireMode());
