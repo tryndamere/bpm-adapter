@@ -1,14 +1,6 @@
 package org.bpm.spring.impl.proxy;
 
-import org.bpm.common.exception.impl.TransientDataAccessException;
 import org.bpm.engine.impl.BaseServiceImpl;
-import org.bpm.spring.cfg.Configuration;
-import org.bpm.engine.Environment;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallback;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -22,24 +14,11 @@ public class ServiceInvocationHandler implements InvocationHandler{
 
     protected Object target;
 
-    protected PlatformTransactionManager transactionManager;
-
-    protected int transactionPropagation;
-
     /**
      * @param target 要代理的对象
-     * @param configuration 属性管理器
-    */
-    public ServiceInvocationHandler(Object target,Configuration configuration){
+     */
+    public ServiceInvocationHandler(Object target){
         this.target = target;
-        transactionManager = configuration.getTransactionManager();
-        String tfs = configuration.getProperty(Environment.TRANSACTION_PROPAGATION);
-        if(tfs==null){
-            transactionPropagation = TransactionDefinition.PROPAGATION_MANDATORY;
-        }else{
-            transactionPropagation = Integer.valueOf(tfs);
-        }
-
     }
 
     public <T> T proxy(){
@@ -53,16 +32,8 @@ public class ServiceInvocationHandler implements InvocationHandler{
      * 调用方法
      */
     @Override
-     public Object invoke(Object proxy,final Method method,final Object[] args) throws Throwable {
-        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
-        transactionTemplate.setPropagationBehavior(transactionPropagation);
-
-        Object result = transactionTemplate.execute(new TransactionCallback<Object>() {
-            public Object doInTransaction(TransactionStatus status) {
-                return execute(target,method,args);
-            }
-        });
-        return result;
+    public Object invoke(Object proxy,final Method method,final Object[] args) throws Throwable {
+        return execute(target,method,args);
     }
 
     /**
@@ -78,7 +49,7 @@ public class ServiceInvocationHandler implements InvocationHandler{
 
             if(target instanceof BaseServiceImpl){
                 ((BaseServiceImpl) target).beforeMethodInvoke(method, args);
-            } 
+            }
             result = method.invoke(target, args);
 
             if(target instanceof BaseServiceImpl){
@@ -86,9 +57,9 @@ public class ServiceInvocationHandler implements InvocationHandler{
             }
 
         } catch (IllegalAccessException e) {
-            throw new TransientDataAccessException("事务内异常："+e.getMessage(),e);
+            throw new RuntimeException(e.getMessage(),e);
         } catch (InvocationTargetException e) {
-            throw new TransientDataAccessException("事务内异常："+e.getMessage(),e);
+            throw new RuntimeException(e.getMessage(),e);
         }
         return result;
     }

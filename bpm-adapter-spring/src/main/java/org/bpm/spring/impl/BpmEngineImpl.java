@@ -1,6 +1,5 @@
 package org.bpm.spring.impl;
 
-import org.bpm.common.BeanName;
 import org.bpm.engine.BpmEngine;
 import org.bpm.engine.impl.BaseServiceImpl;
 import org.bpm.engine.runtime.BpmRuntime;
@@ -33,10 +32,10 @@ public class BpmEngineImpl implements BpmEngine{
     }
 
     public BpmRuntime createBpmRuntime(Configuration configuration) {
-        BpmRuntime bean = (BpmRuntime) configuration.getApplicationContext().getBean(BeanName.BEAN_NAME_BPM_RUNTIME);
+        BpmRuntime bean = (BpmRuntime) configuration.getApplicationContext().getBean("org.bpm.engine.runtime.BpmRuntime");
 
         if(bean instanceof BaseServiceImpl){
-            return new ServiceInvocationHandler(bean,configuration).proxy();
+            return new ServiceInvocationHandler(bean).proxy();
         }
         return bean;
     }

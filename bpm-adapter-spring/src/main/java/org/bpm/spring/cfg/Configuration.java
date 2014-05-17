@@ -2,27 +2,28 @@ package org.bpm.spring.cfg;
 
 import org.bpm.engine.BpmEngine;
 import org.bpm.engine.Environment;
+import org.bpm.spring.ProcessEngineType;
 import org.bpm.spring.impl.BpmEngineImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.io.Serializable;
-import java.util.Properties;
 
 /**
  * Created by serv on 14-5-7.
  */
-public class Configuration implements Serializable,Environment {
-
-    private Properties properties;
+public class Configuration implements ApplicationContextAware,Serializable,Environment {
 
     private ApplicationContext applicationContext;
 
     private PlatformTransactionManager transactionManager;
 
     private DataSource dataSource;
+
+    private ProcessEngineType processEngineType;
 
     /**
      * 创建流程引擎对象
@@ -56,30 +57,6 @@ public class Configuration implements Serializable,Environment {
         return dataSource;
     }
 
-    public void setProperties(Properties properties) {
-        this.properties = properties;
-    }
-
-    public String getProperty(String propertyName) {
-        return properties.getProperty( propertyName );
-    }
-
-    /**
-     * 获取当前的属性配置器
-     * @return
-     */
-    public Properties getProperties() {
-        if (this.properties == null) {
-            this.properties = new Properties();
-        }
-        return this.properties;
-    }
-
-
-    public Configuration addProperties(Properties properties) {
-        this.getProperties().putAll(properties);
-        return this;
-    }
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
@@ -93,4 +70,11 @@ public class Configuration implements Serializable,Environment {
         this.dataSource = dataSource;
     }
 
+    public ProcessEngineType getProcessEngineType() {
+        return processEngineType;
+    }
+
+    public void setProcessEngineType(ProcessEngineType processEngineType) {
+        this.processEngineType = processEngineType;
+    }
 }

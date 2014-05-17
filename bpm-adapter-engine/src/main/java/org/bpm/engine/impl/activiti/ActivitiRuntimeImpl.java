@@ -1,13 +1,13 @@
 package org.bpm.engine.impl.activiti;
 
 import org.activiti.engine.runtime.ProcessInstance;
-import org.bpm.common.BeanName;
 import org.bpm.common.stereotype.DynamicBean;
 import org.bpm.db.config.BpmProcessConfigMapper;
+import org.bpm.db.config.po.BpmProcessConfig;
 import org.bpm.engine.Environment;
 import org.bpm.engine.impl.activiti.vo.BpmTask;
 import org.bpm.engine.runtime.BpmRuntime;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Method;
@@ -17,14 +17,18 @@ import java.util.Map;
 /**
  * Created by rocky on 14-5-13.
  */
-@DynamicBean(beanName = BeanName.BEAN_NAME_BPM_RUNTIME,processEngineType = Environment.ACTIVITI_ENGINE_TYPE)
-@Transactional
+@DynamicBean(beanName = "org.bpm.engine.runtime.BpmRuntime",processEngineType = Environment.ACTIVITI_ENGINE_TYPE)
+@Transactional(propagation = Propagation.MANDATORY)
 public class ActivitiRuntimeImpl extends ActivitiBaseService implements BpmRuntime {
-    @Autowired
+
     private BpmProcessConfigMapper bpmProcessConfigMapper;
 
+    public void setBpmProcessConfigMapper(BpmProcessConfigMapper bpmProcessConfigMapper) {
+        this.bpmProcessConfigMapper = bpmProcessConfigMapper;
+    }
+
     public void beforeMethodInvoke(Method method, Object[] args) {
-        identityService.setAuthenticatedUserId(args[0].toString());
+//        identityService.setAuthenticatedUserId(args[0].toString());
         log.info("开始调用{}类的{}方法,参数为：{}",this.getClass().getName(),method.getName(),args);
     }
 
@@ -61,7 +65,7 @@ public class ActivitiRuntimeImpl extends ActivitiBaseService implements BpmRunti
 
     @Override
     public void completeTask(String userId, String taskId, Map<String, Object> variables) {
-        completeTask(userId,taskId,variables,false,false);
+        completeTask(userId, taskId, variables, false, false);
     }
 
     public void completeTask(String userId , String taskId , Map<String, Object> variables , boolean isBack , boolean isEnd) {
@@ -79,7 +83,7 @@ public class ActivitiRuntimeImpl extends ActivitiBaseService implements BpmRunti
     public void rejectTask(String userId, String taskId, Map<String, Object> variables) {
         String processDefinitionKey = processDefinitionByTaskId(taskId).getKey();
         String startTaskDefKey = bpmProcessConfigMapper.startTaskDefkey(processDefinitionKey).getTaskDefKey();
-        back2PointTask(userId,taskId,startTaskDefKey,variables);
+        back2PointTask(userId, taskId, startTaskDefKey, variables);
     }
 
     @Override
@@ -110,5 +114,16 @@ public class ActivitiRuntimeImpl extends ActivitiBaseService implements BpmRunti
     @Override
     public void delegateAssignee(String userId ,String taskId, String delegatedUserId) {
         taskService.delegateTask(taskId,delegatedUserId);
+    }
+
+    @Override
+    public void test() {
+        BpmProcessConfig bpmProcessConfig = new BpmProcessConfig();
+        bpmProcessConfig.setId("1000");
+        bpmProcessConfig.setProcessDefKey("test");
+        bpmProcessConfig.setTaskDefKey("test");
+        bpmProcessConfig.setTaskConfig("xxxxxx");
+        bpmProcessConfig.setTaskDefType(BpmProcessConfig.TASK_DEF_TYPE.START.getValue());
+        bpmProcessConfigMapper.insert(bpmProcessConfig);
     }
 }

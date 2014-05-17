@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://bpm.org/schema/bpm-spring"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://bpm.org/schema/bpm-spring"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xsd:import namespace="http://www.springframework.org/schema/beans" />
+  <xsd:element name="bpmEngine">
+    <xsd:complexType>
+        <xsd:attribute name="id" type="xsd:string" use="required"/>
+        <xsd:attribute name="dataSource" type="xsd:string"
+                       default="dataSource"/>
+        <xsd:attribute name="transactionManager" type="xsd:string" default="transactionManager"/>
+        <xsd:attribute name="processEngineType" type="xsd:string" default="activiti"/>
+        <xsd:attribute name="bpmRuntimeBeanName" type="xsd:string" default="bpmRuntime"/>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

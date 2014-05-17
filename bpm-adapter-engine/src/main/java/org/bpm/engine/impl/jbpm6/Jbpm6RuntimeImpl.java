@@ -1,10 +1,10 @@
 package org.bpm.engine.impl.jbpm6;
 
-import org.bpm.common.BeanName;
 import org.bpm.common.stereotype.DynamicBean;
 import org.bpm.engine.Environment;
 import org.bpm.engine.impl.activiti.vo.BpmTask;
 import org.bpm.engine.runtime.BpmRuntime;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -13,9 +13,10 @@ import java.util.Map;
 /**
  * Created by rocky on 14-5-14.
  */
-@DynamicBean(beanName = BeanName.BEAN_NAME_BPM_RUNTIME,processEngineType = Environment.JBPM6_ENGINE_TYPE)
-@Transactional
+@DynamicBean(beanName = "org.bpm.engine.runtime.BpmRuntime",processEngineType = Environment.JBPM6_ENGINE_TYPE)
+@Transactional(propagation = Propagation.MANDATORY)
 public class Jbpm6RuntimeImpl implements BpmRuntime {
+
     @Override
     public void admin(String userId, String taskId, List<String> assignees, Map<String, Object> variables) {
 
@@ -37,7 +38,7 @@ public class Jbpm6RuntimeImpl implements BpmRuntime {
     }
 
     @Override
-    public void updateBusinessKey(String processInstanceId, String businessKey) {
+    public void updateBusinessKey(String userId, String processInstanceId, String businessKey) {
 
     }
 
@@ -72,17 +73,22 @@ public class Jbpm6RuntimeImpl implements BpmRuntime {
     }
 
     @Override
-    public void addSignTask(String taskId, Map<String, Object> variables) {
+    public void addSignTask(String userId, String taskId, Map<String, Object> variables) {
 
     }
 
     @Override
-    public void reduceSignTask(String taskId, Map<String, Object> variables) {
+    public void reduceSignTask(String userId, String taskId, Map<String, Object> variables) {
 
     }
 
     @Override
-    public void delegateAssignee(String taskId, String delegatedUserId) {
+    public void delegateAssignee(String userId, String taskId, String delegatedUserId) {
+
+    }
+
+    @Override
+    public void test() {
 
     }
 }

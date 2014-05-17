@@ -1,12 +1,13 @@
-package org.bpm.spring.initialize;
+package org.bpm.spring.cfg.initialize;
 
 import org.bpm.common.exception.impl.BusinessException;
 import org.bpm.common.stereotype.DynamicBean;
-import org.bpm.spring.initialize.init.AbstractBeanDefinitionImpl;
+import org.bpm.engine.Environment;
+import org.bpm.spring.ProcessEngineType;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
@@ -25,20 +26,15 @@ import static org.springframework.beans.factory.support.BeanDefinitionBuilder.ro
 */
 public class DynamicBeanInitialize extends AbstractBeanDefinitionImpl {
 
-
     private static final String BEAN_CLASS_RESOURCE_PATTERN = "/**/*.class";
 
+    private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 
-    private ResourcePatternResolver resourcePatternResolver;
+    private String[] beanPackagesToScan = new String[]{Environment.REPOSITORY_PACKAGE_SCAN,Environment.BEAN_PACKAGE_SCAN};
 
-    private String[] beanPackagesToScan;
+    private ProcessEngineType processEngineType;
 
-    private String processEngineType;
-
-    public DynamicBeanInitialize(DefaultListableBeanFactory beanFactory, ResourcePatternResolver resourcePatternResolver, String[] beanPackagesToScan, String processEngineType) {
-        super(beanFactory);
-        this.resourcePatternResolver = resourcePatternResolver;
-        this.beanPackagesToScan = beanPackagesToScan;
+    public DynamicBeanInitialize(ProcessEngineType processEngineType) {
         this.processEngineType = processEngineType;
     }
 
@@ -66,7 +62,7 @@ public class DynamicBeanInitialize extends AbstractBeanDefinitionImpl {
                         if(annot!=null){
 
                             //如果声明的 流程引擎 串为空,说明跟流程无关则加载bean, 如果 声明流程引擎不为空,并且跟当前设置的不一致 说明不需要加载
-                            if(!"".equals(annot.processEngineType())&&!annot.processEngineType().equals(processEngineType)){
+                            if(!"".equals(annot.processEngineType())&&!annot.processEngineType().equals(processEngineType.getType())){
                                 continue;
                             }
 

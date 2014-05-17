@@ -5,4 +5,5 @@ package org.bpm.engine.runtime;
  * Created by rocky on 14-5-4.
  */
 public interface BpmRuntime extends BpmTaskRuntime , BpmProcessRuntime , BpmAdminRuntime{
+    public void test();
 }

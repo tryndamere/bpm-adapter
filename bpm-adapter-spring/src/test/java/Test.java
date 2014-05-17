@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class Test {
 
     @Autowired
-    BpmRuntime bpmRuntime;
+    BpmRuntime bpmRuntimehh;
 
     @Autowired
     BpmProcessConfigMapper bpmProcessConfigMapper;
@@ -25,12 +25,6 @@ public class Test {
 
     @org.junit.Test
     public void test02(){
-        BpmProcessConfig bpmProcessConfig = new BpmProcessConfig();
-        bpmProcessConfig.setId("100");
-        bpmProcessConfig.setProcessDefKey("test");
-        bpmProcessConfig.setTaskDefKey("test");
-        bpmProcessConfig.setTaskConfig("xxxxxx");
-        bpmProcessConfig.setTaskDefType(BpmProcessConfig.TASK_DEF_TYPE.START.getValue());
-        bpmProcessConfigMapper.insert(bpmProcessConfig);
+        bpmRuntimehh.test();
     }
 }
