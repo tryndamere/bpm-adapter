@@ -57,7 +57,7 @@ public enum ProcessEngineType implements IEngineType{
 
     }
 
-    public Class getClassByName(String className){
+    protected Class getClassByName(String className){
         try {
             return Class.forName(className);
         } catch (ClassNotFoundException e) {
