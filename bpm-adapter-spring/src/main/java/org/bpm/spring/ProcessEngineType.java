@@ -1,7 +1,5 @@
 package org.bpm.spring;
 
-import org.bpm.engine.impl.activiti.ActivitiRuntimeImpl;
-import org.bpm.engine.impl.jbpm6.Jbpm6RuntimeImpl;
 import org.bpm.spring.cfg.initialize.ActivitiEngineInitialize;
 import org.bpm.spring.cfg.initialize.IBeanDefinition;
 
@@ -17,7 +15,7 @@ public enum ProcessEngineType implements IEngineType{
 
         @Override
         public Class getBpmRuntimeImplClass() {
-            return ActivitiRuntimeImpl.class;
+            return getClassByName("org.bpm.engine.impl.activiti.ActivitiRuntimeImpl");
         }
     }
     ,jbpm6("jbpm6"){
@@ -28,7 +26,7 @@ public enum ProcessEngineType implements IEngineType{
 
         @Override
         public Class getBpmRuntimeImplClass() {
-            return Jbpm6RuntimeImpl.class;
+            return getClassByName("org.bpm.engine.impl.jbpm6.Jbpm6RuntimeImpl");
         }
     };
 
@@ -57,6 +55,15 @@ public enum ProcessEngineType implements IEngineType{
         }
         return result;
 
+    }
+
+    public Class getClassByName(String className){
+        try {
+            return Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
