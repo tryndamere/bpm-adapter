@@ -1,14 +1,11 @@
 package org.bpm.engine.impl.activiti;
 
 import org.activiti.engine.delegate.event.ActivitiEventType;
-import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.bpm.common.stereotype.DynamicBean;
 import org.bpm.db.config.BpmProcessConfigMapper;
-import org.bpm.db.config.po.BpmProcessConfig;
-import org.bpm.engine.Environment;
+import org.bpm.common.Environment;
 import org.bpm.engine.impl.activiti.listener.FollowActivityEventListener;
-import org.bpm.engine.impl.activiti.vo.BpmActivity;
 import org.bpm.engine.runtime.ActivityDefinition;
 import org.bpm.engine.runtime.BpmRuntime;
 import org.springframework.transaction.TransactionStatus;
@@ -18,14 +15,13 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by rocky on 14-5-13.
  */
-@DynamicBean(beanName = "org.bpm.engine.runtime.BpmRuntime",processEngineType = Environment.ACTIVITI_ENGINE_TYPE)
+@DynamicBean(beanName = Environment.BEAN_BPMRUNTIME,processEngineType = Environment.ACTIVITI_ENGINE_TYPE)
 @Transactional(propagation = Propagation.MANDATORY)
 public class ActivitiRuntimeImpl extends ActivitiBaseService implements BpmRuntime {
 
@@ -142,14 +138,4 @@ public class ActivitiRuntimeImpl extends ActivitiBaseService implements BpmRunti
     }
 
 
-    @Override
-    public void test() {
-        BpmProcessConfig bpmProcessConfig = new BpmProcessConfig();
-        bpmProcessConfig.setId("1000");
-        bpmProcessConfig.setProcessDefKey("test");
-        bpmProcessConfig.setTaskDefKey("test");
-        bpmProcessConfig.setTaskConfig("xxxxxx");
-        bpmProcessConfig.setTaskDefType(BpmProcessConfig.TASK_DEF_TYPE.START.getValue());
-        bpmProcessConfigMapper.insert(bpmProcessConfig);
-    }
 }

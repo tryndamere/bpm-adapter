@@ -2,7 +2,7 @@ package org.bpm.spring.cfg.initialize;
 
 import org.bpm.common.exception.impl.BusinessException;
 import org.bpm.common.stereotype.DynamicBean;
-import org.bpm.engine.Environment;
+import org.bpm.common.Environment;
 import org.bpm.spring.ProcessEngineType;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;

@@ -1,6 +1,7 @@
 package org.bpm.spring.impl;
 
 import org.bpm.engine.BpmEngine;
+import org.bpm.common.Environment;
 import org.bpm.engine.definition.BpmDefinition;
 import org.bpm.engine.impl.BaseServiceImpl;
 import org.bpm.engine.runtime.BpmRuntime;
@@ -23,8 +24,8 @@ public class BpmEngineImpl implements BpmEngine{
         this.applicationContext = configuration.getApplicationContext();
 
 
-        bpmRuntime = buildBpmBean("org.bpm.engine.runtime.BpmRuntime");
-        bpmDefinition = buildBpmBean("org.bpm.engine.definition.BpmDefinition");
+        bpmRuntime = buildBpmBean(Environment.BEAN_BPMRUNTIME);
+        bpmDefinition = buildBpmBean(Environment.BEAN_BPMDEFINITION);
 
     }
 

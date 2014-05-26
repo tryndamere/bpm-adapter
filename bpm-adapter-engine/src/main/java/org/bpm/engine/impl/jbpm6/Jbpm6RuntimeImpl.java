@@ -1,8 +1,7 @@
 package org.bpm.engine.impl.jbpm6;
 
 import org.bpm.common.stereotype.DynamicBean;
-import org.bpm.engine.Environment;
-import org.bpm.engine.impl.activiti.vo.BpmTask;
+import org.bpm.common.Environment;
 import org.bpm.engine.runtime.ActivityDefinition;
 import org.bpm.engine.runtime.BpmRuntime;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,7 +13,7 @@ import java.util.Map;
 /**
  * Created by rocky on 14-5-14.
  */
-@DynamicBean(beanName = "org.bpm.engine.runtime.BpmRuntime",processEngineType = Environment.JBPM6_ENGINE_TYPE)
+@DynamicBean(beanName = Environment.BEAN_BPMRUNTIME,processEngineType = Environment.JBPM6_ENGINE_TYPE)
 @Transactional(propagation = Propagation.MANDATORY)
 public class Jbpm6RuntimeImpl implements BpmRuntime {
 
@@ -88,8 +87,4 @@ public class Jbpm6RuntimeImpl implements BpmRuntime {
 
     }
 
-    @Override
-    public void test() {
-
-    }
 }

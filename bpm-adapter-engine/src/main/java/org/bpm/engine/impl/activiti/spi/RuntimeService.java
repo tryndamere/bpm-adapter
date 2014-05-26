@@ -1,7 +1,7 @@
 package org.bpm.engine.impl.activiti.spi;
 
 import org.bpm.common.stereotype.DynamicBean;
-import org.bpm.engine.Environment;
+import org.bpm.common.Environment;
 
 /**
  * Created by serv on 14-5-15.

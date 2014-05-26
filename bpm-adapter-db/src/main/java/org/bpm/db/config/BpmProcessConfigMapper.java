@@ -1,5 +1,6 @@
 package org.bpm.db.config;
 
+import org.bpm.common.Environment;
 import org.bpm.common.stereotype.DynamicBean;
 import org.bpm.db.BpmBaseDao;
 import org.bpm.db.config.po.BpmProcessConfig;
@@ -11,7 +12,7 @@ import java.util.Map;
 /**
  * Created by rocky on 14-5-14.
  */
-@DynamicBean(beanName = "org.bpm.db.config.BpmProcessConfigMapper",parent = "org.bpm.db.BpmBaseDao")
+@DynamicBean(beanName = Environment.BEAN_BPMPROCESSCONFIGMAPPER,parent = Environment.BEAN_BPMBASEDAO)
 public class BpmProcessConfigMapper extends BpmBaseDao<BpmProcessConfig> {
 
     public void insert(BpmProcessConfig bpmProcessConfig){

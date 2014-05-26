@@ -1,7 +1,7 @@
 package org.bpm.spring.cfg;
 
 import org.bpm.engine.BpmEngine;
-import org.bpm.engine.Environment;
+import org.bpm.common.Environment;
 import org.bpm.spring.ProcessEngineType;
 import org.bpm.spring.impl.BpmEngineImpl;
 import org.springframework.beans.BeansException;
