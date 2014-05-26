@@ -4,6 +4,7 @@ import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.TransactionIsolationLevel;
+import org.bpm.common.Environment;
 import org.bpm.common.stereotype.DynamicBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by rocky on 14-5-14.
  */
-@DynamicBean(beanName = "org.bpm.db.BpmBaseDao",isAbstract = true)
+@DynamicBean(beanName = Environment.BEAN_BPMBASEDAO,isAbstract = true)
 public abstract class BpmBaseDao<T> {
 
     protected static final Integer BATCH_SIZE = new Integer(1000);
