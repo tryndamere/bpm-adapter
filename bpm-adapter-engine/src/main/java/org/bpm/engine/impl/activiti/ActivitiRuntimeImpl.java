@@ -109,25 +109,9 @@ public class ActivitiRuntimeImpl extends ActivitiBaseService implements BpmRunti
             }
         });
 
-        return generateActivities();
+        return FollowActivityContext.getActivitys();
     }
 
-
-    private List<ActivityDefinition> generateActivities(){
-        List<ActivityImpl> activitys = FollowActivityContext.getActivitys();
-
-        List<ActivityDefinition> definitions = new ArrayList<ActivityDefinition>();
-
-        for(ActivityImpl activity:activitys){
-            BpmActivity bpmActivity = new BpmActivity();
-            bpmActivity.setId(activity.getId());
-            bpmActivity.setName(String.valueOf(activity.getProperty("name")));
-            bpmActivity.setDocumentation(String.valueOf(activity.getProperty("documentation")));
-            bpmActivity.setType(String.valueOf(activity.getProperty("type")));
-            definitions.add(bpmActivity);
-        }
-        return definitions;
-    }
 
 
     @Override

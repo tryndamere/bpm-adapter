@@ -1,8 +1,13 @@
 package org.bpm.engine.impl.activiti;
 
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.bpm.engine.impl.activiti.vo.BpmActivity;
+import org.bpm.engine.runtime.ActivityDefinition;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by serv on 14-5-25.
@@ -26,13 +31,22 @@ public class FollowActivityContext {
         return stack;
     }
 
-    public static List<ActivityImpl> getActivitys(){
-        List<ActivityImpl> activities = new ArrayList<ActivityImpl>();
+    public static List<ActivityDefinition> getActivitys(){
+        List<ActivityDefinition> activities = new ArrayList<ActivityDefinition>();
         Stack<ActivityImpl> stack = getActivityStack();
         while(!stack.isEmpty()){
-            activities.add(stack.pop());
+            ActivityImpl activity = stack.pop();
+
+            BpmActivity bpmActivity = new BpmActivity();
+            bpmActivity.setId(activity.getId());
+            bpmActivity.setName(String.valueOf(activity.getProperty("name")));
+            bpmActivity.setDocumentation(String.valueOf(activity.getProperty("documentation")));
+            bpmActivity.setType(String.valueOf(activity.getProperty("type")));
+
+            activities.add(bpmActivity);
         }
         Collections.reverse(activities);
         return activities;
     }
+
 }
