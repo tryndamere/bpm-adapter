@@ -1,6 +1,6 @@
 package org.bpm.engine.runtime;
 
-import org.bpm.engine.AbstractBaseTest;
+import org.bpm.engine.AbstractBaseTestCase;
 import org.bpm.engine.definition.BpmDefinition;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by izerui.com on 14-5-26.
  */
-public class FollowActivityTest extends AbstractBaseTest{
+public class FollowActivityTestCase extends AbstractBaseTestCase {
 
 
     @Autowired

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath*:applicationContext*.xml"})
 @Transactional
-public abstract class AbstractBaseTest {
+public abstract class AbstractBaseTestCase {
 
     protected Logger log = LoggerFactory.getLogger(getClass());
 
