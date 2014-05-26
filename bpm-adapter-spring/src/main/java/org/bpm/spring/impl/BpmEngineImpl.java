@@ -1,6 +1,7 @@
 package org.bpm.spring.impl;
 
 import org.bpm.engine.BpmEngine;
+import org.bpm.engine.definition.BpmDefinition;
 import org.bpm.engine.impl.BaseServiceImpl;
 import org.bpm.engine.runtime.BpmRuntime;
 import org.bpm.spring.cfg.Configuration;
@@ -15,15 +16,28 @@ public class BpmEngineImpl implements BpmEngine{
     protected Configuration configuration;
     protected ApplicationContext applicationContext;
     protected BpmRuntime bpmRuntime;
+    protected BpmDefinition bpmDefinition;
 
     public BpmEngineImpl(Configuration configuration){
         this.configuration = configuration;
         this.applicationContext = configuration.getApplicationContext();
 
 
-        bpmRuntime = createBpmRuntime();
+        bpmRuntime = buildBpmBean("org.bpm.engine.runtime.BpmRuntime");
+        bpmDefinition = buildBpmBean("org.bpm.engine.definition.BpmDefinition");
+
+    }
 
 
+    public <T> T buildBpmBean(String bpmBeanName) {
+        T bean = (T) applicationContext.getBean(bpmBeanName);
+
+        if(bean instanceof BaseServiceImpl){
+            ((BaseServiceImpl)bean).setTransactionManager(configuration.getTransactionManager());
+            return new ServiceInvocationHandler(bean).proxy();
+        }
+
+        return bean;
     }
 
     @Override
@@ -31,14 +45,10 @@ public class BpmEngineImpl implements BpmEngine{
         return bpmRuntime;
     }
 
-    public BpmRuntime createBpmRuntime() {
-        BpmRuntime bean = (BpmRuntime) applicationContext.getBean("org.bpm.engine.runtime.BpmRuntime");
-
-        if(bean instanceof BaseServiceImpl){
-            return new ServiceInvocationHandler(bean).proxy();
-        }
-        return bean;
+    public BpmDefinition getBpmDefinition() {
+        return bpmDefinition;
     }
+
 
     public void close(){
         //TODO 销毁一些对象

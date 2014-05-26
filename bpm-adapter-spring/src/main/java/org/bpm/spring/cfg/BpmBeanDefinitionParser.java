@@ -11,6 +11,7 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
 import static org.springframework.beans.factory.support.BeanDefinitionBuilder.*;
+import static org.springframework.beans.factory.support.BeanDefinitionBuilder.genericBeanDefinition;
 
 /**
  * Created by izerui.com on 14-5-16.
@@ -23,6 +24,7 @@ public class BpmBeanDefinitionParser implements BeanDefinitionParser {
     private final static String ATTRIBUTE_PROCESSENGINETYPE = "processEngineType";
     private final static String ATTRIBUTE_CONFIGURATION = "configuration";
     private final static String ATTRIBUTE_BPMRUNTIMEBEANNAME = "bpmRuntimeBeanName";
+    private final static String ATTRIBUTE_BPMDEFINITIONBEANNAME = "bpmDefinitionBeanName";
 
 
     @Override
@@ -32,6 +34,7 @@ public class BpmBeanDefinitionParser implements BeanDefinitionParser {
         String dataSource = element.getAttribute(ATTRIBUTE_DATASOURCE);
         String transactionManager = element.getAttribute(ATTRIBUTE_TRANSACTIONMANAGER);
         String bpmRuntimeBeanName = element.getAttribute(ATTRIBUTE_BPMRUNTIMEBEANNAME);
+        String bpmDefinitionBeanName = element.getAttribute(ATTRIBUTE_BPMDEFINITIONBEANNAME);
         ProcessEngineType processEngineType = ProcessEngineType.getProcessEngineType(element.getAttribute(ATTRIBUTE_PROCESSENGINETYPE));
 
         //注册配置管理器
@@ -49,13 +52,9 @@ public class BpmBeanDefinitionParser implements BeanDefinitionParser {
         parserContext.getRegistry().registerBeanDefinition(id,bpmEngineFactory.getBeanDefinition());
 
 
-        //注册bpmRuntime bean
-        BeanDefinitionBuilder bpmRuntimeBean = genericBeanDefinition(processEngineType.getBpmRuntimeImplClass());
-        bpmRuntimeBean.getRawBeanDefinition().setFactoryBeanName(id);
-        bpmRuntimeBean.getRawBeanDefinition().setFactoryMethodName("getBpmRuntime");
-        bpmRuntimeBean.getRawBeanDefinition().setPrimary(true);
-        parserContext.getRegistry().registerBeanDefinition(bpmRuntimeBeanName,bpmRuntimeBean.getBeanDefinition());
-
+        //注册bpm bean
+        registerBpmAPI(bpmRuntimeBeanName,id,"getBpmRuntime",processEngineType.getBpmRuntimeImplClass(),parserContext);
+        registerBpmAPI(bpmDefinitionBeanName,id,"getBpmDefinition",processEngineType.getBpmDefinitionImplClass(),parserContext);
 
 
         //注册mybatis
@@ -70,5 +69,13 @@ public class BpmBeanDefinitionParser implements BeanDefinitionParser {
 
 
 
+    }
+
+    private void registerBpmAPI(String beanName,String factoryBeanName , String factoryMethod , Class beanClass,ParserContext parserContext){
+        BeanDefinitionBuilder builder = genericBeanDefinition(beanClass);
+        builder.getRawBeanDefinition().setFactoryBeanName(factoryBeanName);
+        builder.getRawBeanDefinition().setFactoryMethodName(factoryMethod);
+        builder.getRawBeanDefinition().setPrimary(true);
+        parserContext.getRegistry().registerBeanDefinition(beanName, builder.getBeanDefinition());
     }
 }

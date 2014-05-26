@@ -17,6 +17,11 @@ public enum ProcessEngineType implements IEngineType{
         public Class getBpmRuntimeImplClass() {
             return getClassByName("org.bpm.engine.impl.activiti.ActivitiRuntimeImpl");
         }
+
+        @Override
+        public Class getBpmDefinitionImplClass() {
+            return getClassByName("org.bpm.engine.impl.activiti.ActivitiDefinitionImpl");
+        }
     }
     ,jbpm6("jbpm6"){
         @Override
@@ -27,6 +32,11 @@ public enum ProcessEngineType implements IEngineType{
         @Override
         public Class getBpmRuntimeImplClass() {
             return getClassByName("org.bpm.engine.impl.jbpm6.Jbpm6RuntimeImpl");
+        }
+
+        @Override
+        public Class getBpmDefinitionImplClass() {
+            return null;
         }
     };
 
@@ -73,4 +83,6 @@ interface IEngineType{
     IBeanDefinition getProcessEngineInitialize(String dataSourceBeanName, String transactionManagerBeanName);
 
     Class getBpmRuntimeImplClass();
+
+    Class getBpmDefinitionImplClass();
 }

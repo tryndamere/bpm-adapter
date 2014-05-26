@@ -1,5 +1,6 @@
 package org.bpm.engine.runtime;
 
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.bpm.engine.impl.activiti.vo.BpmTask;
 
 import java.util.List;
@@ -37,13 +38,13 @@ public interface BpmTaskRuntime {
     public void rejectTask(String userId , String taskId , Map<String,Object> variables);
 
     /**
-     * 获取下一环节信息
+     * 获取下面将要执行的多个环节信息
      * @param userId 提交人
      * @param taskId 任务ID
      * @param variables 流程参数
-     * @return 多个任务对象
+     * @return 返回下面的多个环节的列表
      */
-    public List<BpmTask> nextTaskInfos(String userId ,String taskId , Map<String,Object> variables);
+    public List<ActivityDefinition> nextActivities(String userId, String taskId, Map<String, Object> variables);
 
     /**
      * 签收任务，针对recieveTask

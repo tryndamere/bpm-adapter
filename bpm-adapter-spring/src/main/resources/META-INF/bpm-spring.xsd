@@ -13,6 +13,7 @@
         <xsd:attribute name="transactionManager" type="xsd:string" default="transactionManager"/>
         <xsd:attribute name="processEngineType" type="xsd:string" default="activiti"/>
         <xsd:attribute name="bpmRuntimeBeanName" type="xsd:string" default="bpmRuntime"/>
+        <xsd:attribute name="bpmDefinitionBeanName" type="xsd:string" default="bpmDefinition"/>
     </xsd:complexType>
   </xsd:element>
 </xsd:schema>

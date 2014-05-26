@@ -1,16 +1,24 @@
 package org.bpm.engine.impl.activiti;
 
+import org.activiti.engine.delegate.event.ActivitiEventType;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.bpm.common.stereotype.DynamicBean;
 import org.bpm.db.config.BpmProcessConfigMapper;
 import org.bpm.db.config.po.BpmProcessConfig;
 import org.bpm.engine.Environment;
-import org.bpm.engine.impl.activiti.vo.BpmTask;
+import org.bpm.engine.impl.activiti.listener.FollowActivityEventListener;
+import org.bpm.engine.impl.activiti.vo.BpmActivity;
+import org.bpm.engine.runtime.ActivityDefinition;
 import org.bpm.engine.runtime.BpmRuntime;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -87,9 +95,40 @@ public class ActivitiRuntimeImpl extends ActivitiBaseService implements BpmRunti
     }
 
     @Override
-    public List<BpmTask> nextTaskInfos(String userId, String taskId, Map<String, Object> variables) {
-        return null;
+    public List<ActivityDefinition> nextActivities(String userId, final String taskId, final Map<String, Object> variables) {
+
+        new TransactionTemplate(transactionManager).execute(new TransactionCallback<Object>() {
+            @Override
+            public Object doInTransaction(TransactionStatus status) {
+                FollowActivityEventListener activityEventListener = new FollowActivityEventListener();
+                runtimeService.addEventListener(activityEventListener, ActivitiEventType.ACTIVITY_STARTED);
+                taskService.complete(taskId,variables);
+                runtimeService.removeEventListener(activityEventListener);
+                status.setRollbackOnly();
+                return null;
+            }
+        });
+
+        return generateActivities();
     }
+
+
+    private List<ActivityDefinition> generateActivities(){
+        List<ActivityImpl> activitys = FollowActivityContext.getActivitys();
+
+        List<ActivityDefinition> definitions = new ArrayList<ActivityDefinition>();
+
+        for(ActivityImpl activity:activitys){
+            BpmActivity bpmActivity = new BpmActivity();
+            bpmActivity.setId(activity.getId());
+            bpmActivity.setName(String.valueOf(activity.getProperty("name")));
+            bpmActivity.setDocumentation(String.valueOf(activity.getProperty("documentation")));
+            bpmActivity.setType(String.valueOf(activity.getProperty("type")));
+            definitions.add(bpmActivity);
+        }
+        return definitions;
+    }
+
 
     @Override
     public void signalTask(String userId, String taskId, Map<String, Object> variables) {
@@ -115,6 +154,7 @@ public class ActivitiRuntimeImpl extends ActivitiBaseService implements BpmRunti
     public void delegateAssignee(String userId ,String taskId, String delegatedUserId) {
         taskService.delegateTask(taskId,delegatedUserId);
     }
+
 
     @Override
     public void test() {

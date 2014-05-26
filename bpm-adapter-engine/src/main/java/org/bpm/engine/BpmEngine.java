@@ -1,5 +1,6 @@
 package org.bpm.engine;
 
+import org.bpm.engine.definition.BpmDefinition;
 import org.bpm.engine.runtime.BpmRuntime;
 
 /**
@@ -9,6 +10,8 @@ import org.bpm.engine.runtime.BpmRuntime;
 public interface BpmEngine {
 
     public BpmRuntime getBpmRuntime();
+
+    public BpmDefinition getBpmDefinition();
 
     public void close();
 

@@ -12,8 +12,6 @@ public interface Environment {
     String JBPM6_ENGINE_TYPE = "jbpm6";
 
 
-    String TRANSACTION_PROPAGATION = "transaction_propagation";
-
 
     String BEAN_PACKAGE_SCAN = "org.bpm.engine";
     String REPOSITORY_PACKAGE_SCAN = "org.bpm.db";

@@ -3,6 +3,7 @@ package org.bpm.engine.impl.jbpm6;
 import org.bpm.common.stereotype.DynamicBean;
 import org.bpm.engine.Environment;
 import org.bpm.engine.impl.activiti.vo.BpmTask;
+import org.bpm.engine.runtime.ActivityDefinition;
 import org.bpm.engine.runtime.BpmRuntime;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,7 +59,7 @@ public class Jbpm6RuntimeImpl implements BpmRuntime {
     }
 
     @Override
-    public List<BpmTask> nextTaskInfos(String userId, String taskId, Map<String, Object> variables) {
+    public List<ActivityDefinition> nextActivities(String userId, String taskId, Map<String, Object> variables) {
         return null;
     }
 
