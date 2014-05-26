@@ -39,7 +39,7 @@ public class ActivitiRuntimeImpl extends ActivitiBaseService implements BpmRunti
         if(args[0]!=null){
             identityService.setAuthenticatedUserId(args[0].toString());
         }
-        log.info("开始调用{}类的{}方法,参数为：{}",this.getClass().getName(),method.getName(),args);
+        super.beforeMethodInvoke(method,args);
     }
 
     @Override
